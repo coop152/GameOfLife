@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.renderPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.optionsPanel = new System.Windows.Forms.Panel();
             this.optionsFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
@@ -37,11 +36,12 @@
             this.columnBoxLabel = new System.Windows.Forms.Label();
             this.columnNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.dragModeCheckbox = new System.Windows.Forms.CheckBox();
-            this.advanceButton = new System.Windows.Forms.Button();
             this.HorizontalSeperator = new System.Windows.Forms.Label();
+            this.advanceButton = new System.Windows.Forms.Button();
             this.timePauseLabel = new System.Windows.Forms.Label();
             this.timePauseUpDown = new System.Windows.Forms.NumericUpDown();
             this.autoAdvanceCheckbox = new System.Windows.Forms.CheckBox();
+            this.renderPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
             this.optionsPanel.SuspendLayout();
             this.optionsFlowPanel.SuspendLayout();
@@ -49,21 +49,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.columnNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.timePauseUpDown)).BeginInit();
             this.SuspendLayout();
-            // 
-            // renderPanel
-            // 
-            this.renderPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.renderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.renderPanel.Location = new System.Drawing.Point(3, 3);
-            this.renderPanel.Name = "renderPanel";
-            this.renderPanel.Padding = new System.Windows.Forms.Padding(3);
-            this.renderPanel.Size = new System.Drawing.Size(650, 650);
-            this.renderPanel.TabIndex = 0;
-            this.renderPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseClick);
-            this.renderPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseDown);
-            this.renderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseMove);
-            this.renderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseUp);
-            this.renderPanel.Resize += new System.EventHandler(this.renderPanel_Resize);
             // 
             // tableLayoutPanel1
             // 
@@ -176,6 +161,14 @@
             this.dragModeCheckbox.UseVisualStyleBackColor = true;
             this.dragModeCheckbox.CheckedChanged += new System.EventHandler(this.dragModeCheckbox_CheckedChanged);
             // 
+            // HorizontalSeperator
+            // 
+            this.HorizontalSeperator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.HorizontalSeperator.Location = new System.Drawing.Point(3, 104);
+            this.HorizontalSeperator.Name = "HorizontalSeperator";
+            this.HorizontalSeperator.Size = new System.Drawing.Size(114, 1);
+            this.HorizontalSeperator.TabIndex = 5;
+            // 
             // advanceButton
             // 
             this.advanceButton.Location = new System.Drawing.Point(3, 108);
@@ -185,14 +178,6 @@
             this.advanceButton.Text = "Advance Generation";
             this.advanceButton.UseVisualStyleBackColor = true;
             this.advanceButton.Click += new System.EventHandler(this.advanceButton_Click);
-            // 
-            // HorizontalSeperator
-            // 
-            this.HorizontalSeperator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.HorizontalSeperator.Location = new System.Drawing.Point(3, 104);
-            this.HorizontalSeperator.Name = "HorizontalSeperator";
-            this.HorizontalSeperator.Size = new System.Drawing.Size(114, 1);
-            this.HorizontalSeperator.TabIndex = 5;
             // 
             // timePauseLabel
             // 
@@ -242,6 +227,22 @@
             this.autoAdvanceCheckbox.UseVisualStyleBackColor = true;
             this.autoAdvanceCheckbox.CheckedChanged += new System.EventHandler(this.autoAdvanceCheckbox_CheckedChanged);
             // 
+            // renderPanel
+            // 
+            this.renderPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.renderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.renderPanel.Location = new System.Drawing.Point(3, 3);
+            this.renderPanel.Name = "renderPanel";
+            this.renderPanel.Padding = new System.Windows.Forms.Padding(3);
+            this.renderPanel.Size = new System.Drawing.Size(650, 650);
+            this.renderPanel.TabIndex = 2;
+            this.renderPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.renderPanel_Paint);
+            this.renderPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseClick);
+            this.renderPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseDown);
+            this.renderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseMove);
+            this.renderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseUp);
+            this.renderPanel.Resize += new System.EventHandler(this.renderPanel_Resize);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -265,8 +266,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel renderPanel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel optionsPanel;
         private System.Windows.Forms.FlowLayoutPanel optionsFlowPanel;
@@ -280,6 +279,7 @@
         private System.Windows.Forms.Label timePauseLabel;
         private System.Windows.Forms.NumericUpDown timePauseUpDown;
         private System.Windows.Forms.CheckBox autoAdvanceCheckbox;
+        private System.Windows.Forms.Panel renderPanel;
     }
 }
 

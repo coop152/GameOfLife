@@ -28,37 +28,38 @@ namespace Graphical_Game_Of_Life
             Rows = (int)rowNumericUpDown.Value;
             Columns = (int)columnNumericUpDown.Value;
             Game = new ToroidalGameOfLife(Rows, Columns);
-            DrawGrid(Rows, Columns);
+            //DrawGrid(Rows, Columns);
+            renderPanel.Invalidate();
         }
 
-        private void DrawGrid(float rows, float columns)
-        {
-            Graphics g = renderPanel.CreateGraphics();
-            g.Clear(BackColor);
-            float cellWidth = renderPanel.Bounds.Width / columns;
-            float cellHeight = renderPanel.Bounds.Height / rows;
-            Pen p = new Pen(SystemColors.WindowFrame, 1);
-            Brush b = new SolidBrush(Color.DarkRed);
-            for (int y = 1; y <= rows; y++)
-            {
-                g.DrawLine(p, 0, y * cellHeight, columns * cellWidth, y * cellHeight);
-            }
-            for (int x = 1; x <= columns; x++)
-            {
-                g.DrawLine(p, x * cellWidth, 0, x * cellWidth, rows * cellHeight);
-            }
-            bool[,] fieldArray = Game.AsArray();
-            for (int i = 0; i < Rows; i++)
-            {
-                for (int j = 0; j < Columns; j++)
-                {
-                    if (fieldArray[i, j])
-                    {
-                        g.FillRectangle(b, j * cellWidth, i * cellHeight, cellWidth, cellHeight);
-                    }
-                }
-            }
-        }
+        //private void DrawGrid(float rows, float columns)
+        //{
+        //    Graphics g = renderPanel.CreateGraphics();
+        //    g.Clear(BackColor);
+        //    float cellWidth = renderPanel.Bounds.Width / columns;
+        //    float cellHeight = renderPanel.Bounds.Height / rows;
+        //    Pen p = new Pen(SystemColors.WindowFrame, 1);
+        //    Brush b = new SolidBrush(Color.DarkRed);
+        //    for (int y = 1; y <= rows; y++)
+        //    {
+        //        g.DrawLine(p, 0, y * cellHeight, columns * cellWidth, y * cellHeight);
+        //    }
+        //    for (int x = 1; x <= columns; x++)
+        //    {
+        //        g.DrawLine(p, x * cellWidth, 0, x * cellWidth, rows * cellHeight);
+        //    }
+        //    bool[,] fieldArray = Game.AsArray();
+        //    for (int i = 0; i < Rows; i++)
+        //    {
+        //        for (int j = 0; j < Columns; j++)
+        //        {
+        //            if (fieldArray[i, j])
+        //            {
+        //                g.FillRectangle(b, j * cellWidth, i * cellHeight, cellWidth, cellHeight);
+        //            }
+        //        }
+        //    }
+        //}
         /*
         private void DrawSquareGrid(float rows, float columns)
         {
@@ -91,7 +92,7 @@ namespace Graphical_Game_Of_Life
         */
         private void renderPanel_Resize(object sender, EventArgs e)
         {
-            DrawGrid(Rows, Columns);
+            //DrawGrid(Rows, Columns);
         }
 
         private void rowOrColumnCountChanged(object sender, EventArgs e)
@@ -99,12 +100,14 @@ namespace Graphical_Game_Of_Life
             Rows = (int)rowNumericUpDown.Value;
             Columns = (int)columnNumericUpDown.Value;
             Game.ResizeField(Rows, Columns);
-            DrawGrid(Rows, Columns);
+            //DrawGrid(Rows, Columns);
+            renderPanel.Invalidate();
         }
         private void advanceButton_Click(object sender, EventArgs e)
         {
             Game.GotoNextGen();
-            DrawGrid(Rows, Columns);
+            //DrawGrid(Rows, Columns);
+            renderPanel.Invalidate();
         }
 
         private void dragModeCheckbox_CheckedChanged(object sender, EventArgs e)
@@ -125,7 +128,8 @@ namespace Graphical_Game_Of_Life
                 int column = (int)(e.X / cellWidth);
                 currentWay = Game.GetCell(row, column);
                 Game.SetCell(row, column, currentWay);
-                DrawGrid(Rows, Columns);
+                //DrawGrid(Rows, Columns);
+                renderPanel.Invalidate();
                 mouseDown = true;
                 previousTile = (row, column);
             }
@@ -147,7 +151,8 @@ namespace Graphical_Game_Of_Life
                 if ((row, column) != previousTile)
                 {
                     Game.SetCell(row, column, currentWay);
-                    DrawGrid(Rows, Columns);
+                    //DrawGrid(Rows, Columns);
+                    renderPanel.Invalidate();
                     previousTile = (row, column);
                 }
             }
@@ -178,7 +183,36 @@ namespace Graphical_Game_Of_Life
         private void AutoAdvanceTimer_Tick(object sender, EventArgs e)
         {
             Game.GotoNextGen();
-            DrawGrid(Rows, Columns);
+            renderPanel.Invalidate();
+        }
+
+        private void renderPanel_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            g.Clear(BackColor);
+            float cellWidth = e.ClipRectangle.Width / Columns;
+            float cellHeight = e.ClipRectangle.Height / Rows;
+            Pen p = new Pen(SystemColors.WindowFrame, 1);
+            Brush b = new SolidBrush(Color.DarkRed);
+            for (int y = 1; y <= Rows; y++)
+            {
+                g.DrawLine(p, 0, y * cellHeight, Columns * cellWidth, y * cellHeight);
+            }
+            for (int x = 1; x <= Columns; x++)
+            {
+                g.DrawLine(p, x * cellWidth, 0, x * cellWidth, Rows * cellHeight);
+            }
+            bool[,] fieldArray = Game.AsArray();
+            for (int i = 0; i < Rows; i++)
+            {
+                for (int j = 0; j < Columns; j++)
+                {
+                    if (fieldArray[i, j])
+                    {
+                        g.FillRectangle(b, j * cellWidth, i * cellHeight, cellWidth, cellHeight);
+                    }
+                }
+            }
         }
 
         private void renderPanel_MouseUp(object sender, MouseEventArgs e)
@@ -195,7 +229,8 @@ namespace Graphical_Game_Of_Life
                 int row = (int)(e.Y / cellHeight);
                 int column = (int)(e.X / cellWidth);
                 Game.FlipCell(row, column);
-                DrawGrid(Rows, Columns);
+                //DrawGrid(Rows, Columns);
+                renderPanel.Invalidate();
             }
         }
     }
