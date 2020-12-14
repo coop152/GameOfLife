@@ -13,17 +13,42 @@ namespace Hashing
     {
         static void Main()
         {
+            //(string, string)[] usersToAdd = new (string, string)[]
+            //{ ("BobTheBeholder", "CacodemonFromDoom*&^*&^*&^"),
+            //("JimminyCricket", "joeMama123"),
+            //("JoeMama", "PleaseImBeggingYou") };
+            //if (!db.AddUsers(usersToAdd))
+            //{
+            //    Console.WriteLine("Username already taken. ");
+            //}
             Database db = new Database(@"passwordTesting.db");
-            (string, string)[] usersToAdd = new (string, string)[]
-            { ("BobTheBeholder", "CacodemonFromDoom*&^*&^*&^"),
-            ("JimminyCricket", "joeMama123"),
-            ("JoeMama", "PleaseImBeggingYou") };
-            if (!db.AddUsers(usersToAdd))
-            {
-                Console.WriteLine("A Record was already present!!!");
-            }
             List<Record> records = db.GetRecords();
-            Console.ReadLine();
+            while (true)
+            {
+                Console.Write("Username: ");
+                string inputUsername = Console.ReadLine();
+                Console.Write("Password: ");
+                string inputPassword = Console.ReadLine();
+                var result = db.CheckPassword(inputUsername, inputPassword);
+                switch (result)
+                {
+                    case Database.PasswordCheck.Correct:
+                        {
+                            Console.WriteLine("Password Correct");
+                            break;
+                        }
+                    case Database.PasswordCheck.Incorrect:
+                        {
+                            Console.WriteLine("Password Incorrect");
+                            break;
+                        }
+                    case Database.PasswordCheck.WrongUsername:
+                        {
+                            Console.WriteLine("Username Nonexistent");
+                            break;
+                        }
+                }
+            }
         }
     }
 }

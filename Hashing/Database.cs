@@ -1,6 +1,8 @@
 ﻿using Microsoft.Data.Sqlite;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Hashing
 {
@@ -41,12 +43,41 @@ namespace Hashing
         public bool AddUsers((string userName, string password)[] users)
         {
             bool successful = true;
-            foreach (var user in users) 
+            foreach (var user in users)
             {
                 successful &= AddUser(user.userName, user.password);
             }
             return successful;
         }
+
+        public enum PasswordCheck
+        {
+            Correct,
+            Incorrect,
+            WrongUsername
+        }
+        public PasswordCheck CheckPassword(string inputUsername, string inputPassword)
+        {
+            SqliteCommand command = Connection.CreateCommand();
+            command.CommandText = "SELECT Hashed, Salt FROM Users WHERE Username = $name";
+            command.Parameters.AddWithValue("$name", inputUsername);
+            using (var reader = command.ExecuteReader())
+            {
+                if (reader.Read()) //if user present
+                {
+                    byte[] generatedHash = PasswordGen.GenerateHash(inputPassword, (byte[])reader["Salt"]);
+                    if (generatedHash.SequenceEqual( (byte[])reader["Hashed"] ))
+                        return PasswordCheck.Correct;
+                    else
+                        return PasswordCheck.Incorrect;
+                }
+                else
+                {
+                    return PasswordCheck.WrongUsername;
+                }
+            }
+        }
+
         public void ResetDatabase()
         {
             Connection.Close();
