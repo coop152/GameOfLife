@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLifeConsole", "GameOfLifeConsole\GameOfLifeConsole.csproj", "{D7FA87BF-D361-4ED7-9028-A4F1F74F951E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "expandingArray", "expandingArray\expandingArray.csproj", "{4A9D1971-AD25-4F30-9B7B-9CB69189AE14}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graphical Game Of Life", "Graphical Game Of Life\Graphical Game Of Life.csproj", "{945BF567-888E-4167-BF18-704AB7EC5F1C}"
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D7FA87BF-D361-4ED7-9028-A4F1F74F951E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D7FA87BF-D361-4ED7-9028-A4F1F74F951E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D7FA87BF-D361-4ED7-9028-A4F1F74F951E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D7FA87BF-D361-4ED7-9028-A4F1F74F951E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4A9D1971-AD25-4F30-9B7B-9CB69189AE14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A9D1971-AD25-4F30-9B7B-9CB69189AE14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A9D1971-AD25-4F30-9B7B-9CB69189AE14}.Release|Any CPU.ActiveCfg = Release|Any CPU
