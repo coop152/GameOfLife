@@ -13,15 +13,15 @@ namespace Hashing
     {
         static void Main()
         {
-            //(string, string)[] usersToAdd = new (string, string)[]
-            //{ ("BobTheBeholder", "CacodemonFromDoom*&^*&^*&^"),
-            //("JimminyCricket", "joeMama123"),
-            //("JoeMama", "PleaseImBeggingYou") };
-            //if (!db.AddUsers(usersToAdd))
-            //{
-            //    Console.WriteLine("Username already taken. ");
-            //}
             Database db = new Database(@"passwordTesting.db");
+            (string, string)[] usersToAdd = new (string, string)[]
+            { ("BobTheBeholder", "CacodemonFromDoom*&^*&^*&^"),
+            ("JimminyCricket", "joeMama123"),
+            ("JoeMama", "PleaseImBeggingYou") };
+            if (!db.AddUsers(usersToAdd))
+            {
+                Console.WriteLine("Username already taken. ");
+            }
             List<Record> records = db.GetRecords();
             while (true)
             {

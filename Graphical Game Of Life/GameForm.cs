@@ -11,12 +11,12 @@ using System.Windows.Forms;
 
 namespace Graphical_Game_Of_Life
 {
-    public partial class Form1 : Form
+    public partial class GameForm : Form
     {
         ToroidalGameOfLife Game;
         int Rows, Columns;
         Timer autoAdvanceTimer;
-        public Form1()
+        public GameForm()
         {
             InitializeComponent();
             autoAdvanceTimer = new Timer();

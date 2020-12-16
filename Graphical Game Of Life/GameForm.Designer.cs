@@ -1,6 +1,6 @@
 ﻿namespace Graphical_Game_Of_Life
 {
-    partial class Form1
+    partial class GameForm
     {
         /// <summary>
         /// Required designer variable.
