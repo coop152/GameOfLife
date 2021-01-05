@@ -23,11 +23,11 @@ namespace Graphical_Game_Of_Life
 
         private void loginButton_Click(object sender, EventArgs e)
         {
+            errorMessageLabel.Text = String.Empty;
             LoginValidity inputValidity = CheckUserInput();
             if (inputValidity == LoginValidity.BadUsername)
             {
                 errorMessageLabel.Text = "Bad username!";
-                return;
             }
             else if (inputValidity == LoginValidity.BadPassword)
             {
@@ -38,8 +38,64 @@ namespace Graphical_Game_Of_Life
                 string username = usernameTextBox.Text;
                 string password = passwordTextBox.Text;
                 LoginValidity validity = db.CheckPassword(username, password);
-                MessageBox.Show(validity.ToString());
+                //MessageBox.Show(validity.ToString());
+                if (validity == LoginValidity.GoodLogin)
+                {
+                    OpenGame(username);
+                }
+                else if (validity == LoginValidity.BadUsername)
+                {
+                    errorMessageLabel.Text = "User does not exist!";
+                }
+                else
+                {
+                    errorMessageLabel.Text = "Incorrect password!";
+                }
             }
+        }
+
+        private void newAccountButton_Click(object sender, EventArgs e)
+        {
+            errorMessageLabel.Text = String.Empty;
+            LoginValidity inputValidity = CheckUserInput();
+            if (inputValidity == LoginValidity.BadUsername)
+            {
+                errorMessageLabel.Text = "Bad username!";
+            }
+            else if (inputValidity == LoginValidity.BadPassword)
+            {
+                errorMessageLabel.Text = "Bad password!";
+            }
+            else
+            {
+                string username = usernameTextBox.Text;
+                string password = passwordTextBox.Text;
+                //MessageBox.Show(validity.ToString());
+                if (db.UserExists(username))
+                {
+                    errorMessageLabel.Text = "User already exists!";
+                }
+                else
+                {
+                    db.AddUser(username, password);
+                    DialogResult dialog = MessageBox.Show("User created successfully. Log into new account?", "New User", MessageBoxButtons.YesNo);
+                    if (dialog == DialogResult.Yes)
+                    {
+                        OpenGame(username);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+        private void OpenGame(string username)
+        {
+            var gameForm = new GameForm(username);
+            this.Hide();
+            gameForm.ShowDialog();
+            this.Show();
         }
         private LoginValidity CheckUserInput()
         {

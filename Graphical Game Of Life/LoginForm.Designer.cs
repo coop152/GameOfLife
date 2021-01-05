@@ -157,6 +157,7 @@
             this.newAccountButton.TabIndex = 3;
             this.newAccountButton.Text = "Create";
             this.newAccountButton.UseVisualStyleBackColor = true;
+            this.newAccountButton.Click += new System.EventHandler(this.newAccountButton_Click);
             // 
             // errorMessageLabel
             // 

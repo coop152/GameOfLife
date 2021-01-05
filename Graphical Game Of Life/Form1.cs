@@ -11,23 +11,20 @@ using System.Windows.Forms;
 
 namespace Graphical_Game_Of_Life
 {
-    public partial class GameForm : Form
+    public partial class Form1 : Form
     {
         ToroidalGameOfLife Game;
         int Rows, Columns;
         Timer autoAdvanceTimer;
-        string Username;
-        public GameForm(string username)
+        public Form1()
         {
             InitializeComponent();
-            Username = username;
             autoAdvanceTimer = new Timer();
             autoAdvanceTimer.Tick += AutoAdvanceTimer_Tick;
         }
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            this.Text += $" - Signed in as \"{Username}\"";
             Rows = (int)rowNumericUpDown.Value;
             Columns = (int)columnNumericUpDown.Value;
             Game = new ToroidalGameOfLife(Rows, Columns);

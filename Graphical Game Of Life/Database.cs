@@ -73,6 +73,16 @@ namespace Hashing
                 }
             }
         }
+        public bool UserExists(string inputUsername)
+        {
+            SqliteCommand command = Connection.CreateCommand();
+            command.CommandText = "SELECT * FROM Users WHERE Username = $name";
+            command.Parameters.AddWithValue("$name", inputUsername);
+            using (var reader = command.ExecuteReader())
+            {
+                return reader.Read(); //reader.Read returns true if there is a matching row
+            }
+        }
 
         public void ResetDatabase()
         {

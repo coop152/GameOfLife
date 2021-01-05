@@ -18,6 +18,7 @@ namespace Hashing
             { ("BobTheBeholder", "CacodemonFromDoom*&^*&^*&^"),
             ("JimminyCricket", "joeMama123"),
             ("JoeMama", "PleaseImBeggingYou") };
+            // "TestingAccount", "testingtesting123"
             if (!db.AddUsers(usersToAdd))
             {
                 Console.WriteLine("Username already taken. ");
