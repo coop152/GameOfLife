@@ -4,13 +4,22 @@ namespace Graphical_Game_Of_Life
 {
     class ToroidalGameOfLife
     {
-        static Random random = new Random();
-        public ToroidalField<bool> Field;
+        static readonly Random random = new Random();
+        ToroidalField<bool> Field;
         public ToroidalGameOfLife(int rows, int columns)
         {
             Field = new ToroidalField<bool>(rows, columns);
         }
         public bool[,] AsArray() => Field.Zone;
+        public string GetSerialised()
+        {
+            string result = string.Empty;
+            foreach (var x in Field.Zone) //shouldnt be breaking my OOP rules and using Zone directly but i dont care
+            {
+                result += x ? "x" : "o";
+            }
+            return result;
+        }
         public void RandomiseField(int aliveChancePercent = 10)
         {
             for (int i = 0; i < Field.Rows; i++)
@@ -55,7 +64,7 @@ namespace Graphical_Game_Of_Life
         public void ResizeField(int rows, int columns) => Field.ResizeZone(rows, columns);
         public void SetCell(int x, int y, bool value) => Field[x, y] = value;
         public bool GetCell(int x, int y) => Field[x, y];
-        public void FlipCell(int x, int y) => Field[x, y] = Field[x, y] = !Field[x, y];
+        public void FlipCell(int x, int y) => Field[x, y] = !Field[x, y];
     }
 
 }

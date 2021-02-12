@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Graphical_Game_Of_Life
 {
-    enum LoginValidity
+    public enum LoginValidity
     {
         BadUsername,
         BadPassword,

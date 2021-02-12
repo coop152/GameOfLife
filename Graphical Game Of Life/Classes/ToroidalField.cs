@@ -36,35 +36,19 @@ namespace Graphical_Game_Of_Life
             Columns = columns;
             Rows = rows;
         }
+        public int Wraparound(int num, int max) => num < 0 ? (num + max) % max : num % max;
         public T this[int desiredRow, int desiredColumn]
         {
             get
             {
-                while (desiredRow < 0)
-                {
-                    desiredRow = Rows + desiredRow;
-                }
-                while (desiredColumn < 0)
-                {
-                    desiredColumn = Columns + desiredColumn;
-                }
-                return Zone[desiredRow % Rows, desiredColumn % Columns];
+                return Zone[Wraparound(desiredRow, Rows), Wraparound(desiredColumn, Columns)];
             }
             set
             {
-                while (desiredRow < 0)
-                {
-                    desiredRow = Rows + desiredRow;
-                }
-                while (desiredColumn < 0)
-                {
-                    desiredColumn = Columns + desiredColumn;
-                }
-                Zone[desiredRow % Rows, desiredColumn % Columns] = value;
+                Zone[Wraparound(desiredRow, Rows), Wraparound(desiredColumn, Columns)] = value;
             }
         }
         public int GetLength(int dimension) => Zone.GetLength(dimension);
-
     }
 
 }

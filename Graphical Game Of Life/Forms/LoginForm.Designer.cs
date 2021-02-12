@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.TitleLabel = new System.Windows.Forms.Label();
             this.leftFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
@@ -78,6 +79,7 @@
             this.TitleLabel.TabIndex = 0;
             this.TitleLabel.Text = "Game of Life";
             this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.TitleLabel.DoubleClick += new System.EventHandler(this.TitleLabel_DoubleClick);
             // 
             // leftFlowPanel
             // 
@@ -168,7 +170,6 @@
             this.errorMessageLabel.Name = "errorMessageLabel";
             this.errorMessageLabel.Size = new System.Drawing.Size(296, 24);
             this.errorMessageLabel.TabIndex = 5;
-            this.errorMessageLabel.Text = "Error goes here";
             this.errorMessageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // LoginForm
@@ -178,8 +179,9 @@
             this.ClientSize = new System.Drawing.Size(304, 149);
             this.Controls.Add(this.tableLayoutPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LoginForm";
-            this.Text = "LoginForm";
+            this.Text = "Game of Life - Login";
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
             this.leftFlowPanel.ResumeLayout(false);

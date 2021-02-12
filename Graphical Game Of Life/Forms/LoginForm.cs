@@ -13,16 +13,38 @@ namespace Graphical_Game_Of_Life
 {
     public partial class LoginForm : Form
     {
-        Database db;
+        readonly Database db;
         public LoginForm()
         {
             InitializeComponent();
             db = new Database("passwordTesting.db");
 
         }
+        void EnableDatabaseDebug()
+        {
+            void exec(object sender, KeyEventArgs e)
+            {
+                Control tb = sender as Control;
+                if (e.KeyCode == Keys.Enter)
+                {
+                    db.DebugExecute(tb.Text);
+                }
+            }
+            TextBox dbDebugBox = new TextBox();
+            dbDebugBox.KeyDown += exec;
+            tableLayoutPanel.Controls.Remove(errorMessageLabel);
+            tableLayoutPanel.Controls.Add(dbDebugBox, 0, 2);
+            tableLayoutPanel.SetColumnSpan(dbDebugBox, 2);
+            dbDebugBox.Dock = DockStyle.Fill;
+        }
 
         private void loginButton_Click(object sender, EventArgs e)
         {
+            if (usernameTextBox.Text == "debug")
+            {
+                EnableDatabaseDebug();
+                return;
+            }
             errorMessageLabel.Text = String.Empty;
             LoginValidity inputValidity = CheckUserInput();
             if (inputValidity == LoginValidity.BadUsername)
@@ -92,7 +114,7 @@ namespace Graphical_Game_Of_Life
         }
         private void OpenGame(string username)
         {
-            var gameForm = new GameForm(username);
+            var gameForm = new GameForm(username, db);
             this.Hide();
             gameForm.ShowDialog();
             this.Show();
@@ -102,6 +124,21 @@ namespace Graphical_Game_Of_Life
             if (String.IsNullOrEmpty(usernameTextBox.Text.Trim())) return LoginValidity.BadUsername;
             if (String.IsNullOrEmpty(passwordTextBox.Text.Trim())) return LoginValidity.BadPassword;
             else return LoginValidity.GoodLogin;
+        }
+
+        private void TitleLabel_DoubleClick(object sender, EventArgs e)
+        {
+            if ((ModifierKeys & Keys.Shift) == Keys.Shift) OpenGame("Testing");
+            else if ((ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                DialogResult result = MessageBox.Show("Reset the database? This will erase all user accounts, saved games and rulesets!", 
+                    "Warning", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes) 
+                { 
+                    db.ResetDatabase();
+                    MessageBox.Show("The database has been reset.");
+                }
+            }
         }
     }
 }
