@@ -10,7 +10,15 @@ namespace Graphical_Game_Of_Life
         {
             Field = new ToroidalField<bool>(rows, columns);
         }
-        public bool[,] AsArray() => Field.Zone;
+        public static ToroidalGameOfLife Deserialise(string serialised, int rows, int columns)
+        {
+            ToroidalGameOfLife result = new ToroidalGameOfLife(rows, columns);
+            for (int i = 0; i < serialised.Length; i++)
+            {
+                result.SetCell(i / columns, i % columns, serialised[i] == 'x');
+            }
+            return result;
+        }
         public string GetSerialised()
         {
             string result = string.Empty;
@@ -61,10 +69,12 @@ namespace Graphical_Game_Of_Life
             }
             Field = newField;
         }
+        public bool[,] AsArray() => Field.Zone;
         public void ResizeField(int rows, int columns) => Field.ResizeZone(rows, columns);
         public void SetCell(int x, int y, bool value) => Field[x, y] = value;
         public bool GetCell(int x, int y) => Field[x, y];
         public void FlipCell(int x, int y) => Field[x, y] = !Field[x, y];
+
     }
 
 }

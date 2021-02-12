@@ -71,11 +71,11 @@ namespace Hashing
                 }
             }
         }
-        public Savegame[] GetSavegames(string username)
+        public string[] ListSavegames(string username)
         {
-            List<Savegame> savegames = new List<Savegame>();
+            List<string> saveNames = new List<string>();
             SqliteCommand command = Connection.CreateCommand();
-            command.CommandText = "SELECT Save.Columns, Save.Rows, Save.Field, Save.SaveName FROM Save, User, UserSave WHERE " +
+            command.CommandText = "SELECT Save.SaveName FROM Save, User, UserSave WHERE " +
                 "Save.SaveID = UserSave.SaveID AND User.Username = UserSave.Username " +
                 "AND User.Username = $name";
             command.Parameters.AddWithValue("$name", username);
@@ -83,21 +83,18 @@ namespace Hashing
             {
                 while (reader.Read()) //while saves still left
                 {
-                    long retrievedColumns = (long)reader["Columns"];
-                    long retrievedRows = (long)reader["Rows"];
-                    string retrievedField = (string)reader["Field"];
                     string retrievedName = (string)reader["SaveName"];
-                    savegames.Add(new Savegame(retrievedColumns, retrievedRows, retrievedField, retrievedName));
+                    saveNames.Add(retrievedName);
                 }
             }
-            return savegames.ToArray();
+            return saveNames.ToArray();
         }
         public bool AddSavegame(Savegame save, string username)
         {
             //insert new Save
             var command = Connection.CreateCommand();
             command.CommandText = "INSERT INTO Save(SaveName, Field, Columns, Rows) " +
-                "VALUES($name, $field, $cols, $rows)";
+                "VALUES ($name, $field, $cols, $rows)";
             try
             {
                 command.Parameters.AddWithValue("$name", save.Name);
@@ -106,7 +103,7 @@ namespace Hashing
                 command.Parameters.AddWithValue("$rows", save.Rows);
                 command.ExecuteNonQuery();
             }
-            catch (SqliteException)
+            catch (SqliteException e)
             {
                 return false;
             }
@@ -138,6 +135,113 @@ namespace Hashing
             }
             return true;
         }
+        public bool UpdateSavegame(Savegame save, string username)
+        {
+            var command = Connection.CreateCommand();
+            command.CommandText = "UPDATE Save SET Field = $field, Columns = $cols, Rows = $rows " +
+                "WHERE SaveName = $name";
+            try
+            {
+                command.Parameters.AddWithValue("$field", save.Serialised);
+                command.Parameters.AddWithValue("$cols", save.Columns);
+                command.Parameters.AddWithValue("$rows", save.Rows);
+                command.Parameters.AddWithValue("$name", save.Name);
+                command.ExecuteNonQuery();
+                return true;
+            }
+            catch (SqliteException)
+            {
+                return false;
+            }
+        }
+        public Savegame LoadSavegame(string username, string saveName)
+        {
+            SqliteCommand command = Connection.CreateCommand();
+            command.CommandText = "SELECT Save.Field, Save.Columns, Save.Rows " +
+                "FROM Save, User, UserSave WHERE " +
+                "Save.SaveID = UserSave.SaveID AND User.Username = UserSave.Username " +
+                "AND User.Username = $name AND Save.SaveName = $saveName";
+            command.Parameters.AddWithValue("$name", username);
+            command.Parameters.AddWithValue("$saveName", saveName);
+            using (var reader = command.ExecuteReader())
+            {
+                reader.Read();
+                string field = (string)reader["Field"];
+                long columns = (long)reader["Columns"];
+                long rows = (long)reader["Rows"];
+                return new Savegame(columns, rows, field, saveName);
+            }
+        }
+        public bool DeleteSavegame(string saveName, string username)
+        {
+            SqliteCommand command;
+            //Get SaveID
+            long saveID;
+            command = Connection.CreateCommand();
+            command.CommandText = "SELECT SaveID FROM Save WHERE Save.SaveName = $saveName";
+            try
+            {
+                command.Parameters.AddWithValue("$saveName", saveName);
+                saveID = (long)command.ExecuteScalar();
+            }
+            catch (SqliteException)
+            {
+                return false;
+            }
+            //delete in link table
+            command.CommandText = "DELETE FROM UserSave WHERE SaveID = $saveID";
+            try
+            {
+                command.Parameters.AddWithValue("$saveID", saveID);
+                command.ExecuteNonQuery();
+            }
+            catch (SqliteException)
+            {
+                return false;
+            }
+            //delete save
+            command.CommandText = "DELETE FROM Save WHERE SaveID = $saveID";
+            try
+            {
+                command.Parameters.AddWithValue("$saveID", saveID);
+                command.ExecuteNonQuery();
+            }
+            catch (SqliteException)
+            {
+                return false;
+            }
+            return true;
+        }
+        public bool ShareSavegame(string saveName, string username)
+        {
+            // get SaveID
+            var command = Connection.CreateCommand();
+            long saveID;
+            command.CommandText = "SELECT SaveID FROM Save WHERE Save.SaveName = $saveName";
+            try
+            {
+                command.Parameters.AddWithValue("$saveName", saveName);
+                saveID = (long)command.ExecuteScalar();
+            }
+            catch (SqliteException)
+            {
+                return false;
+            }
+            // add new link to link table
+            command = Connection.CreateCommand();
+            command.CommandText = "INSERT INTO UserSave(Username, SaveID) VALUES ($name, $saveID)";
+            try
+            {
+                command.Parameters.AddWithValue("$name", username);
+                command.Parameters.AddWithValue("$saveID", saveID);
+                command.ExecuteNonQuery();
+            }
+            catch (SqliteException e)
+            {
+                return false;
+            }
+            return true;
+        }
         public bool UserExists(string inputUsername)
         {
             SqliteCommand command = Connection.CreateCommand();
@@ -162,6 +266,7 @@ namespace Hashing
             cmd.CommandText = command;
             cmd.ExecuteNonQuery();
         }
+
         // Private Methods
         private void InitialiseDatabase()
         {

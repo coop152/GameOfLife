@@ -18,10 +18,10 @@ namespace Graphical_Game_Of_Life
         {
             InitializeComponent();
         }
-        static public string ShowDialog(string prompt, string title)
+        static public string Show(string prompt, string title)
         {
             InputDialog dialog = new InputDialog();
-            dialog.Name = title;
+            dialog.Text = title;
             dialog.promptLabel.Text = prompt;
             dialog.ShowDialog();
             if (dialog.Cancelled) return null;

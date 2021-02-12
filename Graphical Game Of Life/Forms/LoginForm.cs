@@ -60,7 +60,6 @@ namespace Graphical_Game_Of_Life
                 string username = usernameTextBox.Text;
                 string password = passwordTextBox.Text;
                 LoginValidity validity = db.CheckPassword(username, password);
-                //MessageBox.Show(validity.ToString());
                 if (validity == LoginValidity.GoodLogin)
                 {
                     OpenGame(username);
@@ -117,7 +116,7 @@ namespace Graphical_Game_Of_Life
             var gameForm = new GameForm(username, db);
             this.Hide();
             gameForm.ShowDialog();
-            this.Show();
+            this.Show(); //do .Close instead if you want the entire program to close
         }
         private LoginValidity CheckUserInput()
         {
