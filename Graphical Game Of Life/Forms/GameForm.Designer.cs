@@ -38,19 +38,20 @@
             this.columnBoxLabel = new System.Windows.Forms.Label();
             this.columnNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.dragModeCheckbox = new System.Windows.Forms.CheckBox();
+            this.cellColourButton = new System.Windows.Forms.Button();
             this.HorizontalSeperator = new System.Windows.Forms.Label();
             this.advanceButton = new System.Windows.Forms.Button();
             this.timePauseLabel = new System.Windows.Forms.Label();
             this.timePauseUpDown = new System.Windows.Forms.NumericUpDown();
             this.autoAdvanceCheckbox = new System.Windows.Forms.CheckBox();
             this.gridOffCheckbox = new System.Windows.Forms.CheckBox();
-            this.cellColourButton = new System.Windows.Forms.Button();
             this.bottomOptionsPanel = new System.Windows.Forms.Panel();
             this.bottomOptionsFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.SavegameListBox = new System.Windows.Forms.ListBox();
-            this.loadGameButton = new System.Windows.Forms.Button();
             this.saveGameButton = new System.Windows.Forms.Button();
+            this.loadGameButton = new System.Windows.Forms.Button();
             this.deleteSaveButton = new System.Windows.Forms.Button();
+            this.newGameButton = new System.Windows.Forms.Button();
             this.ShareSaveButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.optionsPanel.SuspendLayout();
@@ -74,8 +75,8 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 64.17683F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35.82317F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 656);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -105,7 +106,7 @@
             this.optionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.optionsPanel.Location = new System.Drawing.Point(659, 3);
             this.optionsPanel.Name = "optionsPanel";
-            this.optionsPanel.Size = new System.Drawing.Size(122, 414);
+            this.optionsPanel.Size = new System.Drawing.Size(122, 387);
             this.optionsPanel.TabIndex = 1;
             // 
             // optionsFlowPanel
@@ -127,7 +128,7 @@
             this.optionsFlowPanel.Location = new System.Drawing.Point(0, 0);
             this.optionsFlowPanel.Name = "optionsFlowPanel";
             this.optionsFlowPanel.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.optionsFlowPanel.Size = new System.Drawing.Size(120, 412);
+            this.optionsFlowPanel.Size = new System.Drawing.Size(120, 385);
             this.optionsFlowPanel.TabIndex = 0;
             // 
             // rowBoxLabel
@@ -196,6 +197,16 @@
             this.dragModeCheckbox.Text = "Drag Mode";
             this.dragModeCheckbox.UseVisualStyleBackColor = true;
             this.dragModeCheckbox.CheckedChanged += new System.EventHandler(this.dragModeCheckbox_CheckedChanged);
+            // 
+            // cellColourButton
+            // 
+            this.cellColourButton.Location = new System.Drawing.Point(3, 107);
+            this.cellColourButton.Name = "cellColourButton";
+            this.cellColourButton.Size = new System.Drawing.Size(114, 46);
+            this.cellColourButton.TabIndex = 10;
+            this.cellColourButton.Text = "Cell Colour";
+            this.cellColourButton.UseVisualStyleBackColor = true;
+            this.cellColourButton.Click += new System.EventHandler(this.cellColourButton_Click);
             // 
             // HorizontalSeperator
             // 
@@ -274,24 +285,14 @@
             this.gridOffCheckbox.UseVisualStyleBackColor = true;
             this.gridOffCheckbox.CheckedChanged += new System.EventHandler(this.gridOffCheckbox_CheckedChanged);
             // 
-            // cellColourButton
-            // 
-            this.cellColourButton.Location = new System.Drawing.Point(3, 107);
-            this.cellColourButton.Name = "cellColourButton";
-            this.cellColourButton.Size = new System.Drawing.Size(114, 46);
-            this.cellColourButton.TabIndex = 10;
-            this.cellColourButton.Text = "Cell Colour";
-            this.cellColourButton.UseVisualStyleBackColor = true;
-            this.cellColourButton.Click += new System.EventHandler(this.cellColourButton_Click);
-            // 
             // bottomOptionsPanel
             // 
             this.bottomOptionsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bottomOptionsPanel.Controls.Add(this.bottomOptionsFlowPanel);
             this.bottomOptionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bottomOptionsPanel.Location = new System.Drawing.Point(659, 423);
+            this.bottomOptionsPanel.Location = new System.Drawing.Point(659, 396);
             this.bottomOptionsPanel.Name = "bottomOptionsPanel";
-            this.bottomOptionsPanel.Size = new System.Drawing.Size(122, 230);
+            this.bottomOptionsPanel.Size = new System.Drawing.Size(122, 257);
             this.bottomOptionsPanel.TabIndex = 3;
             // 
             // bottomOptionsFlowPanel
@@ -300,12 +301,13 @@
             this.bottomOptionsFlowPanel.Controls.Add(this.saveGameButton);
             this.bottomOptionsFlowPanel.Controls.Add(this.loadGameButton);
             this.bottomOptionsFlowPanel.Controls.Add(this.deleteSaveButton);
+            this.bottomOptionsFlowPanel.Controls.Add(this.newGameButton);
             this.bottomOptionsFlowPanel.Controls.Add(this.ShareSaveButton);
             this.bottomOptionsFlowPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.bottomOptionsFlowPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.bottomOptionsFlowPanel.Location = new System.Drawing.Point(0, 0);
             this.bottomOptionsFlowPanel.Name = "bottomOptionsFlowPanel";
-            this.bottomOptionsFlowPanel.Size = new System.Drawing.Size(120, 228);
+            this.bottomOptionsFlowPanel.Size = new System.Drawing.Size(120, 255);
             this.bottomOptionsFlowPanel.TabIndex = 0;
             // 
             // SavegameListBox
@@ -315,16 +317,6 @@
             this.SavegameListBox.Name = "SavegameListBox";
             this.SavegameListBox.Size = new System.Drawing.Size(114, 95);
             this.SavegameListBox.TabIndex = 3;
-            // 
-            // loadGameButton
-            // 
-            this.loadGameButton.Location = new System.Drawing.Point(3, 133);
-            this.loadGameButton.Name = "loadGameButton";
-            this.loadGameButton.Size = new System.Drawing.Size(114, 23);
-            this.loadGameButton.TabIndex = 7;
-            this.loadGameButton.Text = "Load";
-            this.loadGameButton.UseVisualStyleBackColor = true;
-            this.loadGameButton.Click += new System.EventHandler(this.LoadGameButton_Click);
             // 
             // saveGameButton
             // 
@@ -336,6 +328,16 @@
             this.saveGameButton.UseVisualStyleBackColor = true;
             this.saveGameButton.Click += new System.EventHandler(this.SaveGameButton_Click);
             // 
+            // loadGameButton
+            // 
+            this.loadGameButton.Location = new System.Drawing.Point(3, 133);
+            this.loadGameButton.Name = "loadGameButton";
+            this.loadGameButton.Size = new System.Drawing.Size(114, 23);
+            this.loadGameButton.TabIndex = 7;
+            this.loadGameButton.Text = "Load";
+            this.loadGameButton.UseVisualStyleBackColor = true;
+            this.loadGameButton.Click += new System.EventHandler(this.LoadGameButton_Click);
+            // 
             // deleteSaveButton
             // 
             this.deleteSaveButton.Location = new System.Drawing.Point(3, 162);
@@ -346,9 +348,19 @@
             this.deleteSaveButton.UseVisualStyleBackColor = true;
             this.deleteSaveButton.Click += new System.EventHandler(this.deleteSaveButton_Click);
             // 
+            // newGameButton
+            // 
+            this.newGameButton.Location = new System.Drawing.Point(3, 191);
+            this.newGameButton.Name = "newGameButton";
+            this.newGameButton.Size = new System.Drawing.Size(114, 23);
+            this.newGameButton.TabIndex = 10;
+            this.newGameButton.Text = "New";
+            this.newGameButton.UseVisualStyleBackColor = true;
+            this.newGameButton.Click += new System.EventHandler(this.newGameButton_Click);
+            // 
             // ShareSaveButton
             // 
-            this.ShareSaveButton.Location = new System.Drawing.Point(3, 191);
+            this.ShareSaveButton.Location = new System.Drawing.Point(3, 220);
             this.ShareSaveButton.Name = "ShareSaveButton";
             this.ShareSaveButton.Size = new System.Drawing.Size(114, 23);
             this.ShareSaveButton.TabIndex = 9;
@@ -405,6 +417,7 @@
         private System.Windows.Forms.Button cellColourButton;
         private System.Windows.Forms.Button deleteSaveButton;
         private System.Windows.Forms.Button ShareSaveButton;
+        private System.Windows.Forms.Button newGameButton;
     }
 }
 

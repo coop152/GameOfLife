@@ -9,7 +9,6 @@ namespace Graphical_Game_Of_Life
 {
     public partial class GameForm : Form
     {
-        private const string NewSaveText = "(New...)";
         Database db;
         readonly string Username;
         ToroidalGameOfLife Game;
@@ -42,7 +41,6 @@ namespace Graphical_Game_Of_Life
             SavegameListBox.Items.Clear();
             string[] saveNames = db.ListSavegames(Username);
             SavegameListBox.Items.AddRange(saveNames);
-            SavegameListBox.Items.Add(NewSaveText);
         }
 
         private void renderPanel_Resize(object sender, EventArgs e)
@@ -158,19 +156,20 @@ namespace Graphical_Game_Of_Life
             renderPanel.Invalidate();
         }
 
+        private void newGameButton_Click(object sender, EventArgs e)
+        {
+            string saveName = InputDialog.Show("Name of new save?", "New Save");
+            if (saveName != null)
+            {
+                Savegame newSave = new Savegame(Columns, Rows, Game.GetSerialised(), saveName);
+                db.AddSavegame(newSave, Username);
+                EnumerateSavegames();
+            }
+        }
         private void SaveGameButton_Click(object sender, EventArgs e)
         {
             string selected = (string)SavegameListBox.SelectedItem;
-            if (selected == NewSaveText)
-            {
-                string saveName = InputDialog.Show("Name of new save?", "New Save");
-                if (saveName != null)
-                {
-                    Savegame newSave = new Savegame(Columns, Rows, Game.GetSerialised(), saveName);
-                    db.AddSavegame(newSave, Username);
-                }
-            }
-            else if (selected != null)
+            if (selected != null)
             {
                 DialogResult result = MessageBox.Show($"Overwrite save \"{selected}\"?", "Overwrite Save", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
@@ -179,15 +178,12 @@ namespace Graphical_Game_Of_Life
                     db.UpdateSavegame(newSave, Username);
                 }
             }
-            // TODO: can create a new save but cannot overwrite an old one
-            // no loading yet, gotta do that
-            EnumerateSavegames();
         }
 
         private void LoadGameButton_Click(object sender, EventArgs e)
         {
             string selected = (string)SavegameListBox.SelectedItem;
-            if (!(selected == NewSaveText || selected == null))
+            if (selected != null)
             {
                 Savegame loadedSave = db.LoadSavegame(Username, selected);
                 Columns = loadedSave.Columns;
@@ -200,13 +196,14 @@ namespace Graphical_Game_Of_Life
         private void deleteSaveButton_Click(object sender, EventArgs e)
         {
             string selected = (string)SavegameListBox.SelectedItem;
-            if (selected != null && selected != NewSaveText)
+            if (selected != null)
             {
                 DialogResult result = MessageBox.Show($"Delete save \"{selected}\"?", "Delete Save", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
                     db.DeleteSavegame(selected, Username);
                 }
+                EnumerateSavegames();
             }
         }
         private void ShareSaveButton_Click(object sender, EventArgs e)

@@ -189,6 +189,7 @@ namespace Hashing
                 return false;
             }
             //delete in link table
+            command = Connection.CreateCommand();
             command.CommandText = "DELETE FROM UserSave WHERE SaveID = $saveID";
             try
             {
@@ -200,6 +201,7 @@ namespace Hashing
                 return false;
             }
             //delete save
+            command = Connection.CreateCommand();
             command.CommandText = "DELETE FROM Save WHERE SaveID = $saveID";
             try
             {
