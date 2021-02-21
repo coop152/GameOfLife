@@ -290,15 +290,8 @@ namespace Hashing
                 "SaveID INTEGER REFERENCES Save(SaveID)," +
                 "Username TEXT REFERENCES User(Username)," +
                 "PRIMARY KEY (SaveID, Username))",
-
-                //"CREATE TABLE Ruleset(" +
-                //"RuleID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                //"Creator TEXT REFERENCES User(Username)," +
-                //"SurviveLow INTEGER," +
-                //"SurviveHigh INTEGER," +
-                //"Reproduce INTEGER)"
             };
-            foreach(var text in commands)
+            foreach (var text in commands)
             {
                 var command = Connection.CreateCommand();
                 command.CommandText = text;

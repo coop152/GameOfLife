@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameForm));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.renderPanel = new System.Windows.Forms.Panel();
+            this.outerLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.renderPictureBox = new System.Windows.Forms.PictureBox();
             this.optionsPanel = new System.Windows.Forms.Panel();
             this.optionsFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.rowBoxLabel = new System.Windows.Forms.Label();
@@ -38,13 +38,14 @@
             this.columnBoxLabel = new System.Windows.Forms.Label();
             this.columnNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.dragModeCheckbox = new System.Windows.Forms.CheckBox();
-            this.cellColourButton = new System.Windows.Forms.Button();
             this.HorizontalSeperator = new System.Windows.Forms.Label();
+            this.cellColourButton = new System.Windows.Forms.Button();
+            this.gridOffCheckbox = new System.Windows.Forms.CheckBox();
+            this.HorizontalSeperator2 = new System.Windows.Forms.Label();
             this.advanceButton = new System.Windows.Forms.Button();
             this.timePauseLabel = new System.Windows.Forms.Label();
             this.timePauseUpDown = new System.Windows.Forms.NumericUpDown();
             this.autoAdvanceCheckbox = new System.Windows.Forms.CheckBox();
-            this.gridOffCheckbox = new System.Windows.Forms.CheckBox();
             this.bottomOptionsPanel = new System.Windows.Forms.Panel();
             this.bottomOptionsFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.SavegameListBox = new System.Windows.Forms.ListBox();
@@ -53,7 +54,8 @@
             this.deleteSaveButton = new System.Windows.Forms.Button();
             this.newGameButton = new System.Windows.Forms.Button();
             this.ShareSaveButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.outerLayoutPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.renderPictureBox)).BeginInit();
             this.optionsPanel.SuspendLayout();
             this.optionsFlowPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rowNumericUpDown)).BeginInit();
@@ -63,41 +65,39 @@
             this.bottomOptionsFlowPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // outerLayoutPanel
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
-            this.tableLayoutPanel1.Controls.Add(this.renderPanel, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.optionsPanel, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.bottomOptionsPanel, 1, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 656);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.outerLayoutPanel.ColumnCount = 2;
+            this.outerLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.outerLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
+            this.outerLayoutPanel.Controls.Add(this.renderPictureBox, 0, 0);
+            this.outerLayoutPanel.Controls.Add(this.optionsPanel, 1, 0);
+            this.outerLayoutPanel.Controls.Add(this.bottomOptionsPanel, 1, 1);
+            this.outerLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.outerLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.outerLayoutPanel.Name = "outerLayoutPanel";
+            this.outerLayoutPanel.RowCount = 2;
+            this.outerLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.outerLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 255F));
+            this.outerLayoutPanel.Size = new System.Drawing.Size(784, 656);
+            this.outerLayoutPanel.TabIndex = 0;
             // 
-            // renderPanel
+            // renderPictureBox
             // 
-            this.renderPanel.BackColor = System.Drawing.Color.White;
-            this.renderPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.renderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.renderPanel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.renderPanel.Location = new System.Drawing.Point(3, 3);
-            this.renderPanel.Name = "renderPanel";
-            this.renderPanel.Padding = new System.Windows.Forms.Padding(3);
-            this.tableLayoutPanel1.SetRowSpan(this.renderPanel, 2);
-            this.renderPanel.Size = new System.Drawing.Size(650, 650);
-            this.renderPanel.TabIndex = 2;
-            this.renderPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.renderPanel_Paint);
-            this.renderPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseClick);
-            this.renderPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseDown);
-            this.renderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseMove);
-            this.renderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseUp);
-            this.renderPanel.Resize += new System.EventHandler(this.renderPanel_Resize);
+            this.renderPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.renderPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.renderPictureBox.Location = new System.Drawing.Point(3, 3);
+            this.renderPictureBox.Name = "renderPictureBox";
+            this.outerLayoutPanel.SetRowSpan(this.renderPictureBox, 2);
+            this.renderPictureBox.Size = new System.Drawing.Size(650, 650);
+            this.renderPictureBox.TabIndex = 4;
+            this.renderPictureBox.TabStop = false;
+            this.renderPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.renderPictureBox_Paint);
+            this.renderPictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.renderPictureBox_MouseClick);
+            this.renderPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.renderPictureBox_MouseDown);
+            this.renderPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.renderPictureBox_MouseMove);
+            this.renderPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.renderPictureBox_MouseUp);
+            this.renderPictureBox.Resize += new System.EventHandler(this.renderPictureBox_Resize);
             // 
             // optionsPanel
             // 
@@ -106,7 +106,7 @@
             this.optionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.optionsPanel.Location = new System.Drawing.Point(659, 3);
             this.optionsPanel.Name = "optionsPanel";
-            this.optionsPanel.Size = new System.Drawing.Size(122, 387);
+            this.optionsPanel.Size = new System.Drawing.Size(122, 395);
             this.optionsPanel.TabIndex = 1;
             // 
             // optionsFlowPanel
@@ -116,19 +116,20 @@
             this.optionsFlowPanel.Controls.Add(this.columnBoxLabel);
             this.optionsFlowPanel.Controls.Add(this.columnNumericUpDown);
             this.optionsFlowPanel.Controls.Add(this.dragModeCheckbox);
-            this.optionsFlowPanel.Controls.Add(this.cellColourButton);
             this.optionsFlowPanel.Controls.Add(this.HorizontalSeperator);
+            this.optionsFlowPanel.Controls.Add(this.cellColourButton);
+            this.optionsFlowPanel.Controls.Add(this.gridOffCheckbox);
+            this.optionsFlowPanel.Controls.Add(this.HorizontalSeperator2);
             this.optionsFlowPanel.Controls.Add(this.advanceButton);
             this.optionsFlowPanel.Controls.Add(this.timePauseLabel);
             this.optionsFlowPanel.Controls.Add(this.timePauseUpDown);
             this.optionsFlowPanel.Controls.Add(this.autoAdvanceCheckbox);
-            this.optionsFlowPanel.Controls.Add(this.gridOffCheckbox);
             this.optionsFlowPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.optionsFlowPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.optionsFlowPanel.Location = new System.Drawing.Point(0, 0);
             this.optionsFlowPanel.Name = "optionsFlowPanel";
             this.optionsFlowPanel.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.optionsFlowPanel.Size = new System.Drawing.Size(120, 385);
+            this.optionsFlowPanel.Size = new System.Drawing.Size(120, 393);
             this.optionsFlowPanel.TabIndex = 0;
             // 
             // rowBoxLabel
@@ -198,9 +199,17 @@
             this.dragModeCheckbox.UseVisualStyleBackColor = true;
             this.dragModeCheckbox.CheckedChanged += new System.EventHandler(this.dragModeCheckbox_CheckedChanged);
             // 
+            // HorizontalSeperator
+            // 
+            this.HorizontalSeperator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.HorizontalSeperator.Location = new System.Drawing.Point(3, 104);
+            this.HorizontalSeperator.Name = "HorizontalSeperator";
+            this.HorizontalSeperator.Size = new System.Drawing.Size(114, 1);
+            this.HorizontalSeperator.TabIndex = 5;
+            // 
             // cellColourButton
             // 
-            this.cellColourButton.Location = new System.Drawing.Point(3, 107);
+            this.cellColourButton.Location = new System.Drawing.Point(3, 108);
             this.cellColourButton.Name = "cellColourButton";
             this.cellColourButton.Size = new System.Drawing.Size(114, 46);
             this.cellColourButton.TabIndex = 10;
@@ -208,17 +217,28 @@
             this.cellColourButton.UseVisualStyleBackColor = true;
             this.cellColourButton.Click += new System.EventHandler(this.cellColourButton_Click);
             // 
-            // HorizontalSeperator
+            // gridOffCheckbox
             // 
-            this.HorizontalSeperator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.HorizontalSeperator.Location = new System.Drawing.Point(3, 156);
-            this.HorizontalSeperator.Name = "HorizontalSeperator";
-            this.HorizontalSeperator.Size = new System.Drawing.Size(114, 1);
-            this.HorizontalSeperator.TabIndex = 5;
+            this.gridOffCheckbox.AutoSize = true;
+            this.gridOffCheckbox.Location = new System.Drawing.Point(3, 160);
+            this.gridOffCheckbox.Name = "gridOffCheckbox";
+            this.gridOffCheckbox.Size = new System.Drawing.Size(62, 17);
+            this.gridOffCheckbox.TabIndex = 2;
+            this.gridOffCheckbox.Text = "No Grid";
+            this.gridOffCheckbox.UseVisualStyleBackColor = true;
+            this.gridOffCheckbox.CheckedChanged += new System.EventHandler(this.gridOffCheckbox_CheckedChanged);
+            // 
+            // HorizontalSeperator2
+            // 
+            this.HorizontalSeperator2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.HorizontalSeperator2.Location = new System.Drawing.Point(3, 180);
+            this.HorizontalSeperator2.Name = "HorizontalSeperator2";
+            this.HorizontalSeperator2.Size = new System.Drawing.Size(114, 1);
+            this.HorizontalSeperator2.TabIndex = 11;
             // 
             // advanceButton
             // 
-            this.advanceButton.Location = new System.Drawing.Point(3, 160);
+            this.advanceButton.Location = new System.Drawing.Point(3, 184);
             this.advanceButton.Name = "advanceButton";
             this.advanceButton.Size = new System.Drawing.Size(114, 23);
             this.advanceButton.TabIndex = 4;
@@ -229,11 +249,11 @@
             // timePauseLabel
             // 
             this.timePauseLabel.AutoSize = true;
-            this.timePauseLabel.Location = new System.Drawing.Point(3, 186);
+            this.timePauseLabel.Location = new System.Drawing.Point(3, 210);
             this.timePauseLabel.Name = "timePauseLabel";
-            this.timePauseLabel.Size = new System.Drawing.Size(63, 13);
+            this.timePauseLabel.Size = new System.Drawing.Size(67, 13);
             this.timePauseLabel.TabIndex = 6;
-            this.timePauseLabel.Text = "Time Pause";
+            this.timePauseLabel.Text = "Auto Interval";
             // 
             // timePauseUpDown
             // 
@@ -243,7 +263,7 @@
             0,
             0,
             131072});
-            this.timePauseUpDown.Location = new System.Drawing.Point(3, 202);
+            this.timePauseUpDown.Location = new System.Drawing.Point(3, 226);
             this.timePauseUpDown.Maximum = new decimal(new int[] {
             5,
             0,
@@ -266,7 +286,7 @@
             // autoAdvanceCheckbox
             // 
             this.autoAdvanceCheckbox.AutoSize = true;
-            this.autoAdvanceCheckbox.Location = new System.Drawing.Point(3, 228);
+            this.autoAdvanceCheckbox.Location = new System.Drawing.Point(3, 252);
             this.autoAdvanceCheckbox.Name = "autoAdvanceCheckbox";
             this.autoAdvanceCheckbox.Size = new System.Drawing.Size(94, 17);
             this.autoAdvanceCheckbox.TabIndex = 8;
@@ -274,25 +294,14 @@
             this.autoAdvanceCheckbox.UseVisualStyleBackColor = true;
             this.autoAdvanceCheckbox.CheckedChanged += new System.EventHandler(this.autoAdvanceCheckbox_CheckedChanged);
             // 
-            // gridOffCheckbox
-            // 
-            this.gridOffCheckbox.AutoSize = true;
-            this.gridOffCheckbox.Location = new System.Drawing.Point(3, 251);
-            this.gridOffCheckbox.Name = "gridOffCheckbox";
-            this.gridOffCheckbox.Size = new System.Drawing.Size(121, 17);
-            this.gridOffCheckbox.TabIndex = 2;
-            this.gridOffCheckbox.Text = "No Grid (Less Flash)";
-            this.gridOffCheckbox.UseVisualStyleBackColor = true;
-            this.gridOffCheckbox.CheckedChanged += new System.EventHandler(this.gridOffCheckbox_CheckedChanged);
-            // 
             // bottomOptionsPanel
             // 
             this.bottomOptionsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bottomOptionsPanel.Controls.Add(this.bottomOptionsFlowPanel);
             this.bottomOptionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bottomOptionsPanel.Location = new System.Drawing.Point(659, 396);
+            this.bottomOptionsPanel.Location = new System.Drawing.Point(659, 404);
             this.bottomOptionsPanel.Name = "bottomOptionsPanel";
-            this.bottomOptionsPanel.Size = new System.Drawing.Size(122, 257);
+            this.bottomOptionsPanel.Size = new System.Drawing.Size(122, 249);
             this.bottomOptionsPanel.TabIndex = 3;
             // 
             // bottomOptionsFlowPanel
@@ -307,7 +316,7 @@
             this.bottomOptionsFlowPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.bottomOptionsFlowPanel.Location = new System.Drawing.Point(0, 0);
             this.bottomOptionsFlowPanel.Name = "bottomOptionsFlowPanel";
-            this.bottomOptionsFlowPanel.Size = new System.Drawing.Size(120, 255);
+            this.bottomOptionsFlowPanel.Size = new System.Drawing.Size(120, 247);
             this.bottomOptionsFlowPanel.TabIndex = 0;
             // 
             // SavegameListBox
@@ -373,14 +382,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 656);
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.outerLayoutPanel);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "GameForm";
             this.Text = "Game of Life";
             this.Shown += new System.EventHandler(this.Form1_Shown);
-            this.tableLayoutPanel1.ResumeLayout(false);
+            this.outerLayoutPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.renderPictureBox)).EndInit();
             this.optionsPanel.ResumeLayout(false);
             this.optionsFlowPanel.ResumeLayout(false);
             this.optionsFlowPanel.PerformLayout();
@@ -394,7 +404,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel outerLayoutPanel;
         private System.Windows.Forms.Panel optionsPanel;
         private System.Windows.Forms.FlowLayoutPanel optionsFlowPanel;
         private System.Windows.Forms.Label rowBoxLabel;
@@ -407,7 +417,6 @@
         private System.Windows.Forms.Label timePauseLabel;
         private System.Windows.Forms.NumericUpDown timePauseUpDown;
         private System.Windows.Forms.CheckBox autoAdvanceCheckbox;
-        private System.Windows.Forms.Panel renderPanel;
         private System.Windows.Forms.Panel bottomOptionsPanel;
         private System.Windows.Forms.FlowLayoutPanel bottomOptionsFlowPanel;
         private System.Windows.Forms.CheckBox gridOffCheckbox;
@@ -418,6 +427,8 @@
         private System.Windows.Forms.Button deleteSaveButton;
         private System.Windows.Forms.Button ShareSaveButton;
         private System.Windows.Forms.Button newGameButton;
+        private System.Windows.Forms.PictureBox renderPictureBox;
+        private System.Windows.Forms.Label HorizontalSeperator2;
     }
 }
 

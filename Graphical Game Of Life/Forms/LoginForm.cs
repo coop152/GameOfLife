@@ -1,12 +1,5 @@
 ﻿using Hashing;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Graphical_Game_Of_Life
@@ -18,7 +11,6 @@ namespace Graphical_Game_Of_Life
         {
             InitializeComponent();
             db = new Database("passwordTesting.db");
-
         }
         void EnableDatabaseDebug()
         {

@@ -33,7 +33,7 @@ namespace Graphical_Game_Of_Life
             Columns = (int)columnNumericUpDown.Value;
             EnumerateSavegames();
             Game = new ToroidalGameOfLife(Rows, Columns);
-            renderPanel.Invalidate();
+            renderPictureBox.Invalidate();
         }
 
         private void EnumerateSavegames()
@@ -43,9 +43,9 @@ namespace Graphical_Game_Of_Life
             SavegameListBox.Items.AddRange(saveNames);
         }
 
-        private void renderPanel_Resize(object sender, EventArgs e)
+        private void renderPictureBox_Resize(object sender, EventArgs e)
         {
-            renderPanel.Invalidate();
+            renderPictureBox.Invalidate();
         }
 
         private void rowOrColumnCountChanged(object sender, EventArgs e)
@@ -53,13 +53,13 @@ namespace Graphical_Game_Of_Life
             Rows = (int)rowNumericUpDown.Value;
             Columns = (int)columnNumericUpDown.Value;
             Game.ResizeField(Rows, Columns);
-            renderPanel.Invalidate();
+            renderPictureBox.Invalidate();
         }
 
         private void advanceButton_Click(object sender, EventArgs e)
         {
             Game.GotoNextGen();
-            renderPanel.Invalidate();
+            renderPictureBox.Invalidate();
         }
 
         private void autoAdvanceCheckbox_CheckedChanged(object sender, EventArgs e)
@@ -88,7 +88,7 @@ namespace Graphical_Game_Of_Life
         private void AutoAdvanceTimer_Tick(object sender, EventArgs e)
         {
             Game.GotoNextGen();
-            renderPanel.Invalidate();
+            renderPictureBox.Invalidate();
         }
 
         private void DrawField(Graphics g, float width, float height, bool noGrid = false)
@@ -131,7 +131,7 @@ namespace Graphical_Game_Of_Life
             }
         }
 
-        private void renderPanel_Paint(object sender, PaintEventArgs e)
+        private void renderPictureBox_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
             DrawField(g, e.ClipRectangle.Width, e.ClipRectangle.Height, gridOff);
@@ -153,7 +153,7 @@ namespace Graphical_Game_Of_Life
             {
                 drawColor = dialog.Color;
             }
-            renderPanel.Invalidate();
+            renderPictureBox.Invalidate();
         }
 
         private void newGameButton_Click(object sender, EventArgs e)
@@ -189,7 +189,7 @@ namespace Graphical_Game_Of_Life
                 Columns = loadedSave.Columns;
                 Rows = loadedSave.Rows;
                 Game = ToroidalGameOfLife.Deserialise(loadedSave.Serialised, Rows, Columns);
-                renderPanel.Invalidate();
+                renderPictureBox.Invalidate();
             }
         }
 
@@ -219,7 +219,7 @@ namespace Graphical_Game_Of_Life
         private void gridOffCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             gridOff = gridOffCheckbox.Checked;
-            renderPanel.Invalidate();
+            renderPictureBox.Invalidate();
         }
 
         //
@@ -235,60 +235,59 @@ namespace Graphical_Game_Of_Life
             isDragMode = dragModeCheckbox.Checked;
         }
 
-        private void renderPanel_MouseDown(object sender, MouseEventArgs e)
+        private void renderPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
             if (isDragMode)
             {
-                float cellWidth = renderPanel.Bounds.Width / (float)Columns;
-                float cellHeight = renderPanel.Bounds.Height / (float)Rows;
+                float cellWidth = renderPictureBox.Bounds.Width / (float)Columns;
+                float cellHeight = renderPictureBox.Bounds.Height / (float)Rows;
                 int row = (int)(e.Y / cellHeight);
                 int column = (int)(e.X / cellWidth);
                 currentWay = !Game.GetCell(row, column);
                 Game.SetCell(row, column, currentWay);
-                renderPanel.Invalidate();
+                renderPictureBox.Invalidate();
                 mouseDown = true;
                 previousTile = (row, column);
             }
         }
 
-        private void renderPanel_MouseMove(object sender, MouseEventArgs e)
+        private void renderPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             if (isDragMode && mouseDown)
             {
-                if (e.Y < 0 || e.Y >= renderPanel.Bounds.Height
-                    || e.X < 0 || e.X >= renderPanel.Bounds.Width)
+                if (e.Y < 0 || e.Y >= renderPictureBox.Bounds.Height
+                    || e.X < 0 || e.X >= renderPictureBox.Bounds.Width)
                 {
                     return;
                 }
-                float cellWidth = renderPanel.Bounds.Width / (float)Columns;
-                float cellHeight = renderPanel.Bounds.Height / (float)Rows;
+                float cellWidth = renderPictureBox.Bounds.Width / (float)Columns;
+                float cellHeight = renderPictureBox.Bounds.Height / (float)Rows;
                 int row = (int)(e.Y / cellHeight);
                 int column = (int)(e.X / cellWidth);
                 if ((row, column) != previousTile)
                 {
                     Game.SetCell(row, column, currentWay);
-                    renderPanel.Invalidate();
+                    renderPictureBox.Invalidate();
                     previousTile = (row, column);
                 }
             }
         }
 
-
-        private void renderPanel_MouseUp(object sender, MouseEventArgs e)
+        private void renderPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             mouseDown = false;
         }
 
-        private void renderPanel_MouseClick(object sender, MouseEventArgs e)
+        private void renderPictureBox_MouseClick(object sender, MouseEventArgs e)
         {
             if (!isDragMode)
             {
-                float cellWidth = renderPanel.Bounds.Width / (float)Columns;
-                float cellHeight = renderPanel.Bounds.Height / (float)Rows;
+                float cellWidth = renderPictureBox.Bounds.Width / (float)Columns;
+                float cellHeight = renderPictureBox.Bounds.Height / (float)Rows;
                 int row = (int)(e.Y / cellHeight);
                 int column = (int)(e.X / cellWidth);
                 Game.FlipCell(row, column);
-                renderPanel.Invalidate();
+                renderPictureBox.Invalidate();
             }
         }
     }
