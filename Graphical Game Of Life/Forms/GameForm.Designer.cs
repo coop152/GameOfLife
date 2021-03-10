@@ -37,15 +37,21 @@
             this.rowNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.columnBoxLabel = new System.Windows.Forms.Label();
             this.columnNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.dragModeCheckbox = new System.Windows.Forms.CheckBox();
             this.HorizontalSeperator = new System.Windows.Forms.Label();
+            this.GameTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.UnderpopulationThresholdLabel = new System.Windows.Forms.Label();
+            this.UnderpopulationThresholdUpDown = new System.Windows.Forms.NumericUpDown();
+            this.RebirthThresholdLabel = new System.Windows.Forms.Label();
+            this.RebirthThresholdUpDown = new System.Windows.Forms.NumericUpDown();
+            this.OverpopulationThresholdLabel = new System.Windows.Forms.Label();
+            this.OverpopulationThresholdUpDown = new System.Windows.Forms.NumericUpDown();
             this.cellColourButton = new System.Windows.Forms.Button();
             this.gridOffCheckbox = new System.Windows.Forms.CheckBox();
             this.HorizontalSeperator2 = new System.Windows.Forms.Label();
             this.advanceButton = new System.Windows.Forms.Button();
+            this.autoAdvanceCheckbox = new System.Windows.Forms.CheckBox();
             this.timePauseLabel = new System.Windows.Forms.Label();
             this.timePauseUpDown = new System.Windows.Forms.NumericUpDown();
-            this.autoAdvanceCheckbox = new System.Windows.Forms.CheckBox();
             this.bottomOptionsPanel = new System.Windows.Forms.Panel();
             this.bottomOptionsFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.SavegameListBox = new System.Windows.Forms.ListBox();
@@ -60,6 +66,9 @@
             this.optionsFlowPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rowNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UnderpopulationThresholdUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RebirthThresholdUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.OverpopulationThresholdUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.timePauseUpDown)).BeginInit();
             this.bottomOptionsPanel.SuspendLayout();
             this.bottomOptionsFlowPanel.SuspendLayout();
@@ -93,7 +102,6 @@
             this.renderPictureBox.TabIndex = 4;
             this.renderPictureBox.TabStop = false;
             this.renderPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.renderPictureBox_Paint);
-            this.renderPictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.renderPictureBox_MouseClick);
             this.renderPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.renderPictureBox_MouseDown);
             this.renderPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.renderPictureBox_MouseMove);
             this.renderPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.renderPictureBox_MouseUp);
@@ -115,15 +123,21 @@
             this.optionsFlowPanel.Controls.Add(this.rowNumericUpDown);
             this.optionsFlowPanel.Controls.Add(this.columnBoxLabel);
             this.optionsFlowPanel.Controls.Add(this.columnNumericUpDown);
-            this.optionsFlowPanel.Controls.Add(this.dragModeCheckbox);
             this.optionsFlowPanel.Controls.Add(this.HorizontalSeperator);
+            this.optionsFlowPanel.Controls.Add(this.GameTypeComboBox);
+            this.optionsFlowPanel.Controls.Add(this.UnderpopulationThresholdLabel);
+            this.optionsFlowPanel.Controls.Add(this.UnderpopulationThresholdUpDown);
+            this.optionsFlowPanel.Controls.Add(this.RebirthThresholdLabel);
+            this.optionsFlowPanel.Controls.Add(this.RebirthThresholdUpDown);
+            this.optionsFlowPanel.Controls.Add(this.OverpopulationThresholdLabel);
+            this.optionsFlowPanel.Controls.Add(this.OverpopulationThresholdUpDown);
             this.optionsFlowPanel.Controls.Add(this.cellColourButton);
             this.optionsFlowPanel.Controls.Add(this.gridOffCheckbox);
             this.optionsFlowPanel.Controls.Add(this.HorizontalSeperator2);
             this.optionsFlowPanel.Controls.Add(this.advanceButton);
+            this.optionsFlowPanel.Controls.Add(this.autoAdvanceCheckbox);
             this.optionsFlowPanel.Controls.Add(this.timePauseLabel);
             this.optionsFlowPanel.Controls.Add(this.timePauseUpDown);
-            this.optionsFlowPanel.Controls.Add(this.autoAdvanceCheckbox);
             this.optionsFlowPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.optionsFlowPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.optionsFlowPanel.Location = new System.Drawing.Point(0, 0);
@@ -188,30 +202,122 @@
             0});
             this.columnNumericUpDown.ValueChanged += new System.EventHandler(this.rowOrColumnCountChanged);
             // 
-            // dragModeCheckbox
-            // 
-            this.dragModeCheckbox.AutoSize = true;
-            this.dragModeCheckbox.Location = new System.Drawing.Point(3, 84);
-            this.dragModeCheckbox.Name = "dragModeCheckbox";
-            this.dragModeCheckbox.Size = new System.Drawing.Size(79, 17);
-            this.dragModeCheckbox.TabIndex = 3;
-            this.dragModeCheckbox.Text = "Drag Mode";
-            this.dragModeCheckbox.UseVisualStyleBackColor = true;
-            this.dragModeCheckbox.CheckedChanged += new System.EventHandler(this.dragModeCheckbox_CheckedChanged);
-            // 
             // HorizontalSeperator
             // 
             this.HorizontalSeperator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.HorizontalSeperator.Location = new System.Drawing.Point(3, 104);
+            this.HorizontalSeperator.Location = new System.Drawing.Point(3, 84);
+            this.HorizontalSeperator.Margin = new System.Windows.Forms.Padding(3);
             this.HorizontalSeperator.Name = "HorizontalSeperator";
             this.HorizontalSeperator.Size = new System.Drawing.Size(114, 1);
             this.HorizontalSeperator.TabIndex = 5;
             // 
+            // GameTypeComboBox
+            // 
+            this.GameTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.GameTypeComboBox.FormattingEnabled = true;
+            this.GameTypeComboBox.Items.AddRange(new object[] {
+            "Game of Life",
+            "HighLife",
+            "PlusLife (Cross-Shaped Neighbourhood)",
+            "Custom Rules"});
+            this.GameTypeComboBox.Location = new System.Drawing.Point(3, 91);
+            this.GameTypeComboBox.Name = "GameTypeComboBox";
+            this.GameTypeComboBox.Size = new System.Drawing.Size(114, 21);
+            this.GameTypeComboBox.TabIndex = 18;
+            this.GameTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.GameTypeComboBox_SelectedIndexChanged);
+            // 
+            // UnderpopulationThresholdLabel
+            // 
+            this.UnderpopulationThresholdLabel.AutoSize = true;
+            this.UnderpopulationThresholdLabel.Location = new System.Drawing.Point(3, 115);
+            this.UnderpopulationThresholdLabel.Name = "UnderpopulationThresholdLabel";
+            this.UnderpopulationThresholdLabel.Size = new System.Drawing.Size(108, 13);
+            this.UnderpopulationThresholdLabel.TabIndex = 12;
+            this.UnderpopulationThresholdLabel.Text = "Death if neighbours <";
+            // 
+            // UnderpopulationThresholdUpDown
+            // 
+            this.UnderpopulationThresholdUpDown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.UnderpopulationThresholdUpDown.Enabled = false;
+            this.UnderpopulationThresholdUpDown.Location = new System.Drawing.Point(3, 131);
+            this.UnderpopulationThresholdUpDown.Maximum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.UnderpopulationThresholdUpDown.Name = "UnderpopulationThresholdUpDown";
+            this.UnderpopulationThresholdUpDown.Size = new System.Drawing.Size(114, 20);
+            this.UnderpopulationThresholdUpDown.TabIndex = 13;
+            this.UnderpopulationThresholdUpDown.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.UnderpopulationThresholdUpDown.ValueChanged += new System.EventHandler(this.ThresholdsChanged);
+            // 
+            // RebirthThresholdLabel
+            // 
+            this.RebirthThresholdLabel.AutoSize = true;
+            this.RebirthThresholdLabel.Location = new System.Drawing.Point(3, 154);
+            this.RebirthThresholdLabel.Name = "RebirthThresholdLabel";
+            this.RebirthThresholdLabel.Size = new System.Drawing.Size(113, 13);
+            this.RebirthThresholdLabel.TabIndex = 14;
+            this.RebirthThresholdLabel.Text = "Rebirth if neighbours =";
+            // 
+            // RebirthThresholdUpDown
+            // 
+            this.RebirthThresholdUpDown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.RebirthThresholdUpDown.Enabled = false;
+            this.RebirthThresholdUpDown.Location = new System.Drawing.Point(3, 170);
+            this.RebirthThresholdUpDown.Maximum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.RebirthThresholdUpDown.Name = "RebirthThresholdUpDown";
+            this.RebirthThresholdUpDown.Size = new System.Drawing.Size(114, 20);
+            this.RebirthThresholdUpDown.TabIndex = 15;
+            this.RebirthThresholdUpDown.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.RebirthThresholdUpDown.ValueChanged += new System.EventHandler(this.ThresholdsChanged);
+            // 
+            // OverpopulationThresholdLabel
+            // 
+            this.OverpopulationThresholdLabel.AutoSize = true;
+            this.OverpopulationThresholdLabel.Location = new System.Drawing.Point(3, 193);
+            this.OverpopulationThresholdLabel.Name = "OverpopulationThresholdLabel";
+            this.OverpopulationThresholdLabel.Size = new System.Drawing.Size(108, 13);
+            this.OverpopulationThresholdLabel.TabIndex = 16;
+            this.OverpopulationThresholdLabel.Text = "Death if neighbours >";
+            // 
+            // OverpopulationThresholdUpDown
+            // 
+            this.OverpopulationThresholdUpDown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.OverpopulationThresholdUpDown.Enabled = false;
+            this.OverpopulationThresholdUpDown.Location = new System.Drawing.Point(3, 209);
+            this.OverpopulationThresholdUpDown.Maximum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.OverpopulationThresholdUpDown.Name = "OverpopulationThresholdUpDown";
+            this.OverpopulationThresholdUpDown.Size = new System.Drawing.Size(114, 20);
+            this.OverpopulationThresholdUpDown.TabIndex = 17;
+            this.OverpopulationThresholdUpDown.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.OverpopulationThresholdUpDown.ValueChanged += new System.EventHandler(this.ThresholdsChanged);
+            // 
             // cellColourButton
             // 
-            this.cellColourButton.Location = new System.Drawing.Point(3, 108);
+            this.cellColourButton.Location = new System.Drawing.Point(3, 235);
             this.cellColourButton.Name = "cellColourButton";
-            this.cellColourButton.Size = new System.Drawing.Size(114, 46);
+            this.cellColourButton.Size = new System.Drawing.Size(114, 23);
             this.cellColourButton.TabIndex = 10;
             this.cellColourButton.Text = "Cell Colour";
             this.cellColourButton.UseVisualStyleBackColor = true;
@@ -220,7 +326,7 @@
             // gridOffCheckbox
             // 
             this.gridOffCheckbox.AutoSize = true;
-            this.gridOffCheckbox.Location = new System.Drawing.Point(3, 160);
+            this.gridOffCheckbox.Location = new System.Drawing.Point(3, 264);
             this.gridOffCheckbox.Name = "gridOffCheckbox";
             this.gridOffCheckbox.Size = new System.Drawing.Size(62, 17);
             this.gridOffCheckbox.TabIndex = 2;
@@ -231,14 +337,15 @@
             // HorizontalSeperator2
             // 
             this.HorizontalSeperator2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.HorizontalSeperator2.Location = new System.Drawing.Point(3, 180);
+            this.HorizontalSeperator2.Location = new System.Drawing.Point(3, 287);
+            this.HorizontalSeperator2.Margin = new System.Windows.Forms.Padding(3);
             this.HorizontalSeperator2.Name = "HorizontalSeperator2";
             this.HorizontalSeperator2.Size = new System.Drawing.Size(114, 1);
             this.HorizontalSeperator2.TabIndex = 11;
             // 
             // advanceButton
             // 
-            this.advanceButton.Location = new System.Drawing.Point(3, 184);
+            this.advanceButton.Location = new System.Drawing.Point(3, 294);
             this.advanceButton.Name = "advanceButton";
             this.advanceButton.Size = new System.Drawing.Size(114, 23);
             this.advanceButton.TabIndex = 4;
@@ -246,10 +353,21 @@
             this.advanceButton.UseVisualStyleBackColor = true;
             this.advanceButton.Click += new System.EventHandler(this.advanceButton_Click);
             // 
+            // autoAdvanceCheckbox
+            // 
+            this.autoAdvanceCheckbox.AutoSize = true;
+            this.autoAdvanceCheckbox.Location = new System.Drawing.Point(3, 323);
+            this.autoAdvanceCheckbox.Name = "autoAdvanceCheckbox";
+            this.autoAdvanceCheckbox.Size = new System.Drawing.Size(94, 17);
+            this.autoAdvanceCheckbox.TabIndex = 8;
+            this.autoAdvanceCheckbox.Text = "Auto-Advance";
+            this.autoAdvanceCheckbox.UseVisualStyleBackColor = true;
+            this.autoAdvanceCheckbox.CheckedChanged += new System.EventHandler(this.autoAdvanceCheckbox_CheckedChanged);
+            // 
             // timePauseLabel
             // 
             this.timePauseLabel.AutoSize = true;
-            this.timePauseLabel.Location = new System.Drawing.Point(3, 210);
+            this.timePauseLabel.Location = new System.Drawing.Point(3, 343);
             this.timePauseLabel.Name = "timePauseLabel";
             this.timePauseLabel.Size = new System.Drawing.Size(67, 13);
             this.timePauseLabel.TabIndex = 6;
@@ -263,7 +381,7 @@
             0,
             0,
             131072});
-            this.timePauseUpDown.Location = new System.Drawing.Point(3, 226);
+            this.timePauseUpDown.Location = new System.Drawing.Point(3, 359);
             this.timePauseUpDown.Maximum = new decimal(new int[] {
             5,
             0,
@@ -282,17 +400,6 @@
             0,
             0,
             65536});
-            // 
-            // autoAdvanceCheckbox
-            // 
-            this.autoAdvanceCheckbox.AutoSize = true;
-            this.autoAdvanceCheckbox.Location = new System.Drawing.Point(3, 252);
-            this.autoAdvanceCheckbox.Name = "autoAdvanceCheckbox";
-            this.autoAdvanceCheckbox.Size = new System.Drawing.Size(94, 17);
-            this.autoAdvanceCheckbox.TabIndex = 8;
-            this.autoAdvanceCheckbox.Text = "Auto-Advance";
-            this.autoAdvanceCheckbox.UseVisualStyleBackColor = true;
-            this.autoAdvanceCheckbox.CheckedChanged += new System.EventHandler(this.autoAdvanceCheckbox_CheckedChanged);
             // 
             // bottomOptionsPanel
             // 
@@ -396,6 +503,9 @@
             this.optionsFlowPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rowNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UnderpopulationThresholdUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RebirthThresholdUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.OverpopulationThresholdUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.timePauseUpDown)).EndInit();
             this.bottomOptionsPanel.ResumeLayout(false);
             this.bottomOptionsFlowPanel.ResumeLayout(false);
@@ -411,7 +521,6 @@
         private System.Windows.Forms.NumericUpDown rowNumericUpDown;
         private System.Windows.Forms.Label columnBoxLabel;
         private System.Windows.Forms.NumericUpDown columnNumericUpDown;
-        private System.Windows.Forms.CheckBox dragModeCheckbox;
         private System.Windows.Forms.Label HorizontalSeperator;
         private System.Windows.Forms.Button advanceButton;
         private System.Windows.Forms.Label timePauseLabel;
@@ -429,6 +538,13 @@
         private System.Windows.Forms.Button newGameButton;
         private System.Windows.Forms.PictureBox renderPictureBox;
         private System.Windows.Forms.Label HorizontalSeperator2;
+        private System.Windows.Forms.Label UnderpopulationThresholdLabel;
+        private System.Windows.Forms.NumericUpDown UnderpopulationThresholdUpDown;
+        private System.Windows.Forms.Label RebirthThresholdLabel;
+        private System.Windows.Forms.NumericUpDown RebirthThresholdUpDown;
+        private System.Windows.Forms.Label OverpopulationThresholdLabel;
+        private System.Windows.Forms.NumericUpDown OverpopulationThresholdUpDown;
+        private System.Windows.Forms.ComboBox GameTypeComboBox;
     }
 }
 

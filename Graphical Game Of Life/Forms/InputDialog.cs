@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Graphical_Game_Of_Life
@@ -14,15 +7,15 @@ namespace Graphical_Game_Of_Life
     {
         public string Result;
         public bool Cancelled;
-        public InputDialog()
+        private InputDialog()
         {
             InitializeComponent();
         }
         static public string Show(string prompt, string title)
         {
             InputDialog dialog = new InputDialog();
-            dialog.Text = title;
             dialog.promptLabel.Text = prompt;
+            dialog.Text = title;
             dialog.ShowDialog();
             if (dialog.Cancelled) return null;
             else return dialog.Result;

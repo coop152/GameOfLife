@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Database.cs" />
+    <Compile Include="Classes\CustomToroidalGameOfLife.cs" />
     <Compile Include="Forms\GameForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +102,8 @@
     <Compile Include="Forms\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\ToroidalHighLife.cs" />
+    <Compile Include="Classes\ToroidalPlusLife.cs" />
     <Compile Include="LoginValidity.cs" />
     <Compile Include="Classes\PasswordGen.cs" />
     <Compile Include="Program.cs" />

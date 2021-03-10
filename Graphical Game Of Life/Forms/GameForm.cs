@@ -2,7 +2,6 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace Graphical_Game_Of_Life
@@ -12,16 +11,21 @@ namespace Graphical_Game_Of_Life
         Database db;
         readonly string Username;
         ToroidalGameOfLife Game;
-        int Rows, Columns;
         readonly Timer autoAdvanceTimer;
         bool gridOff;
-        Color drawColor;
+        Color drawColor = Color.Turquoise;
+        Func<bool[,], ToroidalGameOfLife>[] GameTypes = 
+        {
+            (array) => new ToroidalGameOfLife(array),
+            (array) => new ToroidalHighLife(array),
+            (array) => new ToroidalPlusLife(array),
+            (array) => new CustomToroidalGameOfLife(array)
+        };
         public GameForm(string username, Database database)
         {
             InitializeComponent();
             db = database;
             Username = username;
-            drawColor = Color.DarkRed;
             autoAdvanceTimer = new Timer();
             autoAdvanceTimer.Tick += AutoAdvanceTimer_Tick;
         }
@@ -29,11 +33,32 @@ namespace Graphical_Game_Of_Life
         private void Form1_Shown(object sender, EventArgs e)
         {
             this.Text += $" - Signed in as \"{Username}\"";
-            Rows = (int)rowNumericUpDown.Value;
-            Columns = (int)columnNumericUpDown.Value;
+            int rows = (int)rowNumericUpDown.Value;
+            int columns = (int)columnNumericUpDown.Value;
             EnumerateSavegames();
-            Game = new ToroidalGameOfLife(Rows, Columns);
+            GameTypeComboBox.SelectedIndex = 0;
+            Game = new ToroidalGameOfLife(rows, columns);
             renderPictureBox.Invalidate();
+        }
+        private void GameTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Game != null)
+            {
+                ComboBox comboBox = sender as ComboBox;
+                Game = GameTypes[comboBox.SelectedIndex](Game.AsArray());
+                if (comboBox.SelectedIndex != 3)
+                {
+                    UnderpopulationThresholdUpDown.Enabled = false;
+                    RebirthThresholdUpDown.Enabled = false;
+                    OverpopulationThresholdUpDown.Enabled = false;
+                }
+                else
+                {
+                    UnderpopulationThresholdUpDown.Enabled = true;
+                    RebirthThresholdUpDown.Enabled = true;
+                    OverpopulationThresholdUpDown.Enabled = true;
+                }
+            }
         }
 
         private void EnumerateSavegames()
@@ -50,9 +75,9 @@ namespace Graphical_Game_Of_Life
 
         private void rowOrColumnCountChanged(object sender, EventArgs e)
         {
-            Rows = (int)rowNumericUpDown.Value;
-            Columns = (int)columnNumericUpDown.Value;
-            Game.ResizeField(Rows, Columns);
+            int rows = (int)rowNumericUpDown.Value;
+            int columns = (int)columnNumericUpDown.Value;
+            Game.ResizeField(rows, columns);
             renderPictureBox.Invalidate();
         }
 
@@ -67,9 +92,6 @@ namespace Graphical_Game_Of_Life
             autoAdvanceTimer.Interval = (int)(timePauseUpDown.Value * 1000);
             if (autoAdvanceCheckbox.Checked)
             {
-                rowNumericUpDown.Enabled = false;
-                columnNumericUpDown.Enabled = false;
-                dragModeCheckbox.Enabled = false;
                 advanceButton.Enabled = false;
                 autoAdvanceCheckbox.BackColor = Color.PaleTurquoise;
                 autoAdvanceTimer.Start();
@@ -77,9 +99,6 @@ namespace Graphical_Game_Of_Life
             else
             {
                 autoAdvanceTimer.Stop();
-                rowNumericUpDown.Enabled = true;
-                columnNumericUpDown.Enabled = true;
-                dragModeCheckbox.Enabled = true;
                 advanceButton.Enabled = true;
                 autoAdvanceCheckbox.BackColor = SystemColors.Control;
             }
@@ -91,11 +110,12 @@ namespace Graphical_Game_Of_Life
             renderPictureBox.Invalidate();
         }
 
-        private void DrawField(Graphics g, float width, float height, bool noGrid = false)
+        private void DrawField(Graphics g, float width, float height)
         {
-            float cellWidth = width / Columns;
-            float cellHeight = height / Rows;
-            Pen p = new Pen(SystemColors.WindowFrame, 1);
+            int columns = Game.Columns;
+            int rows = Game.Rows;
+            float cellWidth = width / columns;
+            float cellHeight = height / rows;
             Color lightDrawColor = Color.FromArgb(127, drawColor);
             Brush b = new LinearGradientBrush(
                 new PointF(0, 0),
@@ -103,30 +123,39 @@ namespace Graphical_Game_Of_Life
                 lightDrawColor,
                 drawColor
                 );
-
+            //Brush bShad = new LinearGradientBrush(
+            //    new PointF(0, 0),
+            //    new PointF(width, height),
+            //    Color.Gray,
+            //    Color.Black
+            //    );
             bool[,] fieldArray = Game.AsArray();
-            RectangleF[] rects = new RectangleF[Columns * Rows];
+            RectangleF[] rects = new RectangleF[columns * rows];
+            //RectangleF[] shadows = new RectangleF[columns * rows];
             int k = 0;
-            for (int i = 0; i < Rows; i++)
+            for (int i = 0; i < rows; i++)
             {
-                for (int j = 0; j < Columns; j++)
+                for (int j = 0; j < columns; j++)
                 {
                     if (fieldArray[i, j])
                     {
+                        //shadows[k] = new RectangleF((j + 0.1f) * cellWidth, (i + 0.1f) * cellHeight, cellWidth, cellHeight);
                         rects[k++] = new RectangleF(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
                     }
                 }
             }
+            //g.FillRectangles(bShad, shadows);
             g.FillRectangles(b, rects);
-            if (!noGrid)
+            Pen p = new Pen(SystemColors.WindowFrame, 1);
+            if (!gridOff) // Draw grid
             {
-                for (int y = 1; y <= Rows; y++)
+                for (int y = 1; y <= rows; y++)
                 {
-                    g.DrawLine(p, 0, y * cellHeight, Columns * cellWidth, y * cellHeight);
+                    g.DrawLine(p, 0, y * cellHeight, columns * cellWidth, y * cellHeight);
                 }
-                for (int x = 1; x <= Columns; x++)
+                for (int x = 1; x <= columns; x++)
                 {
-                    g.DrawLine(p, x * cellWidth, 0, x * cellWidth, Rows * cellHeight);
+                    g.DrawLine(p, x * cellWidth, 0, x * cellWidth, rows * cellHeight);
                 }
             }
         }
@@ -134,7 +163,7 @@ namespace Graphical_Game_Of_Life
         private void renderPictureBox_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            DrawField(g, e.ClipRectangle.Width, e.ClipRectangle.Height, gridOff);
+            DrawField(g, e.ClipRectangle.Width, e.ClipRectangle.Height);
         }
 
         private void screenshotButton_Click(object sender, EventArgs e)
@@ -143,6 +172,12 @@ namespace Graphical_Game_Of_Life
             Bitmap bitmap = new Bitmap(WIDTH, HEIGHT);
             DrawField(Graphics.FromImage(bitmap), WIDTH, HEIGHT);
             Clipboard.SetImage(bitmap);
+        }
+        private void ThresholdsChanged(object sender, EventArgs e)
+        {
+            Game.BirthThreshold = (int)RebirthThresholdUpDown.Value;
+            Game.UnderpopulationThreshold = (int)UnderpopulationThresholdUpDown.Value;
+            Game.OverpopulationThreshold = (int)OverpopulationThresholdUpDown.Value;
         }
 
         private void cellColourButton_Click(object sender, EventArgs e)
@@ -161,7 +196,7 @@ namespace Graphical_Game_Of_Life
             string saveName = InputDialog.Show("Name of new save?", "New Save");
             if (saveName != null)
             {
-                Savegame newSave = new Savegame(Columns, Rows, Game.GetSerialised(), saveName);
+                Savegame newSave = new Savegame(Game.Columns, Game.Rows, Game.GetSerialised(), saveName);
                 db.AddSavegame(newSave, Username);
                 EnumerateSavegames();
             }
@@ -174,7 +209,7 @@ namespace Graphical_Game_Of_Life
                 DialogResult result = MessageBox.Show($"Overwrite save \"{selected}\"?", "Overwrite Save", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
-                    Savegame newSave = new Savegame(Columns, Rows, Game.GetSerialised(), selected);
+                    Savegame newSave = new Savegame(Game.Columns, Game.Rows, Game.GetSerialised(), selected);
                     db.UpdateSavegame(newSave, Username);
                 }
             }
@@ -185,10 +220,12 @@ namespace Graphical_Game_Of_Life
             string selected = (string)SavegameListBox.SelectedItem;
             if (selected != null)
             {
-                Savegame loadedSave = db.LoadSavegame(Username, selected);
-                Columns = loadedSave.Columns;
-                Rows = loadedSave.Rows;
-                Game = ToroidalGameOfLife.Deserialise(loadedSave.Serialised, Rows, Columns);
+                Savegame save = db.LoadSavegame(Username, selected);
+                rowNumericUpDown.Value = save.Rows;
+                columnNumericUpDown.Value = save.Columns;
+                Game = ToroidalGameOfLife.Deserialise(save.Serialised, save.Rows, save.Columns);
+                GameTypeComboBox.SelectedIndex = 0;
+                ThresholdsChanged(sender, e);
                 renderPictureBox.Invalidate();
             }
         }
@@ -227,41 +264,32 @@ namespace Graphical_Game_Of_Life
         //
 
         bool mouseDown, currentWay;
-        bool isDragMode;
         (int x, int y) previousTile;
-
-        private void dragModeCheckbox_CheckedChanged(object sender, EventArgs e)
-        {
-            isDragMode = dragModeCheckbox.Checked;
-        }
 
         private void renderPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            if (isDragMode)
-            {
-                float cellWidth = renderPictureBox.Bounds.Width / (float)Columns;
-                float cellHeight = renderPictureBox.Bounds.Height / (float)Rows;
-                int row = (int)(e.Y / cellHeight);
-                int column = (int)(e.X / cellWidth);
-                currentWay = !Game.GetCell(row, column);
-                Game.SetCell(row, column, currentWay);
-                renderPictureBox.Invalidate();
-                mouseDown = true;
-                previousTile = (row, column);
-            }
+            float cellWidth = renderPictureBox.Bounds.Width / (float)Game.Columns;
+            float cellHeight = renderPictureBox.Bounds.Height / (float)Game.Rows;
+            int row = (int)(e.Y / cellHeight);
+            int column = (int)(e.X / cellWidth);
+            currentWay = !Game.GetCell(row, column);
+            Game.SetCell(row, column, currentWay);
+            renderPictureBox.Invalidate();
+            mouseDown = true;
+            previousTile = (row, column);
         }
 
         private void renderPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (isDragMode && mouseDown)
+            if (mouseDown)
             {
                 if (e.Y < 0 || e.Y >= renderPictureBox.Bounds.Height
                     || e.X < 0 || e.X >= renderPictureBox.Bounds.Width)
                 {
                     return;
                 }
-                float cellWidth = renderPictureBox.Bounds.Width / (float)Columns;
-                float cellHeight = renderPictureBox.Bounds.Height / (float)Rows;
+                float cellWidth = renderPictureBox.Bounds.Width / (float)Game.Columns;
+                float cellHeight = renderPictureBox.Bounds.Height / (float)Game.Rows;
                 int row = (int)(e.Y / cellHeight);
                 int column = (int)(e.X / cellWidth);
                 if ((row, column) != previousTile)
@@ -273,22 +301,10 @@ namespace Graphical_Game_Of_Life
             }
         }
 
+
         private void renderPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             mouseDown = false;
-        }
-
-        private void renderPictureBox_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (!isDragMode)
-            {
-                float cellWidth = renderPictureBox.Bounds.Width / (float)Columns;
-                float cellHeight = renderPictureBox.Bounds.Height / (float)Rows;
-                int row = (int)(e.Y / cellHeight);
-                int column = (int)(e.X / cellWidth);
-                Game.FlipCell(row, column);
-                renderPictureBox.Invalidate();
-            }
         }
     }
 }

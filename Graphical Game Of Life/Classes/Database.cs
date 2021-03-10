@@ -12,15 +12,13 @@ namespace Hashing
         // Fields
         private SqliteConnection Connection;
         private readonly string FileName;
-        private readonly bool IsNew;
         // Public Methods
         public Database(string fileName)
         {
             FileName = fileName;
-            IsNew = !File.Exists(fileName);
             Connection = new SqliteConnection($@"Data Source = {fileName}");
             Connection.Open();
-            if (IsNew) InitialiseDatabase();
+            if (!File.Exists(fileName)) InitialiseDatabase(); //If db file doesnt exist
         }
         public bool AddUser(string userName, string password)
         {
@@ -103,7 +101,7 @@ namespace Hashing
                 command.Parameters.AddWithValue("$rows", save.Rows);
                 command.ExecuteNonQuery();
             }
-            catch (SqliteException e)
+            catch (SqliteException)
             {
                 return false;
             }
@@ -238,7 +236,7 @@ namespace Hashing
                 command.Parameters.AddWithValue("$saveID", saveID);
                 command.ExecuteNonQuery();
             }
-            catch (SqliteException e)
+            catch (SqliteException)
             {
                 return false;
             }
@@ -289,7 +287,7 @@ namespace Hashing
                 "CREATE TABLE UserSave(" +
                 "SaveID INTEGER REFERENCES Save(SaveID)," +
                 "Username TEXT REFERENCES User(Username)," +
-                "PRIMARY KEY (SaveID, Username))",
+                "PRIMARY KEY (SaveID, Username))"
             };
             foreach (var text in commands)
             {

@@ -4,12 +4,12 @@ namespace Graphical_Game_Of_Life
 {
     class ToroidalGameOfLife
     {
+        public int Columns { get => Field.Columns; }
+        public int Rows { get => Field.Rows; }
+        public int UnderpopulationThreshold = 2;
+        public int OverpopulationThreshold = 3;
+        public int BirthThreshold = 3;
         static readonly Random random = new Random();
-        ToroidalField<bool> Field;
-        public ToroidalGameOfLife(int rows, int columns)
-        {
-            Field = new ToroidalField<bool>(rows, columns);
-        }
         public static ToroidalGameOfLife Deserialise(string serialised, int rows, int columns)
         {
             ToroidalGameOfLife result = new ToroidalGameOfLife(rows, columns);
@@ -18,6 +18,16 @@ namespace Graphical_Game_Of_Life
                 result.SetCell(i / columns, i % columns, serialised[i] == 'x');
             }
             return result;
+        }
+        protected ToroidalField<bool> Field;
+        public ToroidalGameOfLife(int rows, int columns)
+        {
+            Field = new ToroidalField<bool>(rows, columns);
+        }
+        public ToroidalGameOfLife(bool[,] array)
+        {
+            Field = new ToroidalField<bool>(array.GetLength(0), array.GetLength(1));
+            Field.Zone = array;
         }
         public string GetSerialised()
         {
@@ -34,7 +44,7 @@ namespace Graphical_Game_Of_Life
                 for (int j = 0; j < Field.Columns; j++)
                     Field[i, j] = random.Next(100) < aliveChancePercent;
         }
-        private int CountNeighbours(int x, int y)
+        protected virtual int CountNeighbours(int x, int y)
         {
             int count = 0;
             for (int i = x - 1; i <= x + 1; i++)
@@ -42,7 +52,7 @@ namespace Graphical_Game_Of_Life
                     if (!(i == x && j == y) && Field[i, j]) count++;
             return count;
         }
-        public void GotoNextGen()
+        public virtual void GotoNextGen()
         {
             ToroidalField<bool> newField = new ToroidalField<bool>(Field.Rows, Field.Columns);
             Array.Copy(Field.Zone, newField.Zone, Field.Rows * Field.Columns);
